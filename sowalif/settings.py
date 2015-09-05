@@ -56,7 +56,7 @@ ROOT_URLCONF = 'sowalif.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['main/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'sowalif',
         'HOST': '127.0.0.1',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'reapak',
         'PORT': ''
     }
 }
