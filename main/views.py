@@ -14,6 +14,8 @@ from main.models import Post
 
 def post_create(request):
 
+    context = {}
+    context['post'] =
 
 
 
@@ -27,7 +29,7 @@ def post_detail_view(request, pk):
     context['posts'] = posts
 
 
-    return render_
+    return render_to_response('post_detail.html', context, context_instance=RequestContext(request))
 
 
 def index(request):

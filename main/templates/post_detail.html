@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+</head>
+<body>
+        <h4>{{ post.author }}</h4>
+        <p>{{ post.text }}</p>
+        {% for tag in post.tag_set.all %}
+            <p>{{ tag.name }}</p>
+        {% endfor %}
+
+        {% for comment in post.comment_set.all %}
+            <h5>{{ comment.author }}</h5>
+            <p>{{ comment.text }}</p>
+        {% endfor %}
+</body>
+</html>

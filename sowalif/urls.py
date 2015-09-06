@@ -24,4 +24,6 @@ urlpatterns = [
     url(r'^signup/$', 'main.views.signup_view'),
     url(r'^logout/$', 'main.views.logout_view'),
     url(r'^$', 'main.views.index'),
+    url(r'^post_detail/(?P<pk>\w+)/$', 'main.views.post_detail_view'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
