@@ -9,7 +9,7 @@
 
             {{ form.as_p }}
             {% if user.is_authenticated %}
-                    <input type="hidden" name='author' value="{% user.pk %}">
+                    <input type="hidden" name='author' value="{{ user.pk }}">
                 {% else %}
                     <input type="hidden" name='author' value="88">
             {% endif %}
