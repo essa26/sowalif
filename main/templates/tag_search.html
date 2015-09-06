@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tag search</title>
+</head>
+<body>
+    <form action="/tag_search/" method="POST">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <input type="submit" value="Search">
+    </form>
+
+</body>
+</html>

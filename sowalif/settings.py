@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sorl.thumbnail',
     'main',
 )
 
@@ -81,7 +82,7 @@ DATABASES = {
         'NAME': 'sowalif',
         'HOST': '127.0.0.1',
         'USER': 'root',
-        'PASSWORD': 'reapak',
+        'PASSWORD': 'root',
         'PORT': ''
     }
 }
