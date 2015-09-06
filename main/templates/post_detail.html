@@ -14,5 +14,18 @@
             <h5>{{ comment.author }}</h5>
             <p>{{ comment.text }}</p>
         {% endfor %}
+
+        <form method="POST" action="/post_detail/{{ post.pk }}/">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="commented_on" value="{% post.pk %}"
+            {% if user.is_authenticated %}
+                <input type="hidden" name='author' value="{% user.pk %}">
+            {% else %}
+                <input type="hidden" name='author' value="88">
+            {% endif %}
+            <input type='submit' value='Add Comment'>
+
+
 </body>
 </html>

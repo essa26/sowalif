@@ -9,6 +9,8 @@ class Post(models.Model):
     author = models.ForeignKey(User)
     text = models.TextField()
     tags = models.ManyToManyField('main.Tag')
+    date_created = models.DateTimeField(auto_now=True)
+
 
     def __unicode__(self):
         return self.title
@@ -18,6 +20,8 @@ class Comment(models.Model):
     author = models.CharField(max_length=255)
     text = models.TextField()
     posted_on = models.ForeignKey('main.Post')
+    date_created = models.DateTimeField(auto_now=True)
+
 
     def __unicode__(self):
         return self.posted_on.title
@@ -25,7 +29,7 @@ class Comment(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=255)
-    post = models.ManyToManyField('main.Post')
+    #post = models.ManyToManyField('main.Post')
 
     def __unicode__(self):
         return self.name

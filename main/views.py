@@ -4,7 +4,7 @@ from django.db.backends.mysql.base import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from main.forms import UserSignup, UserLogin
+from main.forms import UserSignup, UserLogin, Create_Post, Comment_On
 
 # Create your views here.
 from main.models import Post
@@ -15,7 +15,19 @@ from main.models import Post
 def post_create(request):
 
     context = {}
-    context['post'] =
+    form = Create_Post
+    context['form'] = form
+    if request.method == 'POST':
+        form = Create_Post(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            context['valid'] = "Post Created"
+    elif request.method == 'GET':
+        context['valid'] = form.errors
+
+    return render_to_response('add_post.html', context, context_instance=RequestContext (request))
 
 
 
@@ -26,7 +38,21 @@ def post_detail_view(request, pk):
 
     posts = Post.objects.get(pk=pk)
 
+    form = Comment_On
+
+    context['form'] = form
+
     context['posts'] = posts
+
+    if request.method == 'POST':
+        form = Comment_On(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            context['valid'] = "Comment Added"
+    elif request.method == 'GET':
+        context['valid'] = form.errors
 
 
     return render_to_response('post_detail.html', context, context_instance=RequestContext(request))

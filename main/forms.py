@@ -1,6 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
-from main.models import Post
+from main.models import Post, Comment
 
 letter_validator = RegexValidator(r'^[a-zA-Z]*$', 'Please Type Letters')
 
@@ -18,3 +18,8 @@ class Create_Post(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'text', 'tags']
+
+class Comment_On(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
