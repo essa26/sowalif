@@ -18,7 +18,10 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('author', models.CharField(max_length=255)),
                 ('text', models.TextField()),
+<<<<<<< HEAD
                 ('date_created', models.DateTimeField(auto_now=True)),
+=======
+>>>>>>> 9dd0c31aa7e2218d9f2710e054dd809e501b0052
             ],
         ),
         migrations.CreateModel(
@@ -27,7 +30,10 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=255)),
                 ('text', models.TextField()),
+<<<<<<< HEAD
                 ('date_created', models.DateTimeField(auto_now=True)),
+=======
+>>>>>>> 9dd0c31aa7e2218d9f2710e054dd809e501b0052
                 ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -36,6 +42,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=255)),
+<<<<<<< HEAD
+=======
+                ('posts', models.ManyToManyField(to='main.Post')),
+>>>>>>> 9dd0c31aa7e2218d9f2710e054dd809e501b0052
             ],
         ),
         migrations.AddField(

@@ -30,6 +30,7 @@ class Comment(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=255)
     #post = models.ManyToManyField('main.Post')
+    #posts = models.ManyToManyField('main.Post')
 
     def __unicode__(self):
         return self.name
