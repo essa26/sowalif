@@ -9,7 +9,7 @@
         <h5>{{ post.author }}</h5>
 
         <p>{{ post.text }}</p>
-        {% for tag in post.tag_set.all %}
+        {% for tag in tags %}
             <p>{{ tag.name }}</p>
         {% endfor %}
 

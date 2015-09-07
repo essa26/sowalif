@@ -122,6 +122,10 @@ def post_detail_view(request, pk):
 
     post = Post.objects.get(pk=pk)
 
+    tags = post.tags.all()
+
+    context['tags'] = tags
+
     form = CommentOn
 
     context['form'] = form
