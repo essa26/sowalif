@@ -4,7 +4,7 @@ from django.db.backends.mysql.base import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
-from main.forms import UserSignup, UserLogin,  CreatePost, Comment_On#, TagSearch, TagCreate,
+from main.forms import UserSignup, UserLogin,  CreatePost, CommentOn#, TagSearch, TagCreate,
 from main.models import Post, Comment#, Tag
 # Create your views here.
 
@@ -122,17 +122,27 @@ def post_detail_view(request, pk):
 
     post = Post.objects.get(pk=pk)
 
-    form = Comment_On
+    form = CommentOn
 
     context['form'] = form
 
     context['post'] = post
 
     if request.method == 'POST':
-        form = Comment_On(request.POST)
+        form = CommentOn(request.POST)
 
         if form.is_valid():
-            form.save()
+            text = form.cleaned_data['text']
+            author_id = request.POST['author']
+            posted_on = request.POST['posted_on']
+
+            new_obj = Comment()
+
+            new_obj.text = text
+            new_obj.author = User.objects.get(pk=author_id)
+            new_obj.posted_on = Post.objects.get(pk=posted_on)
+
+            new_obj.save()
 
             context['valid'] = "Comment Added"
     elif request.method == 'GET':

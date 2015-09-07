@@ -34,8 +34,5 @@ class CreatePost(forms.Form):
     tags = TagField()
 
 
-
-class Comment_On(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ['text']
+class CommentOn(forms.Form):
+    text = forms.CharField(widget=forms.Textarea())
