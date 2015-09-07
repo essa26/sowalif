@@ -13,9 +13,20 @@
 {% else %}
     Welcome, {{ user.username }}
     <form action="/logout/" method="POST">
-    {% csrf_token %}
-        <input type="submit" value="logout" >
+        {% csrf_token %}
+        <input type="submit" value="logout">
+    </form>
+    <hr>
+    <form action="/add_tag/" method="POST">
+        {% csrf_token %}
+        <input type="text" name="tag">
+        <input type="submit" value="Add preference">
     </form>
 {% endif %}
+<ul>
+    {% for tag in list %}
+        <li>{{ tag }}</li>
+    {% endfor %}
+</ul>
 </body>
 </html>

@@ -5,8 +5,8 @@ from django.db import models
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, required=True)
-    tag = models.ManyToManyField('main.Tag')
+    user = models.OneToOneField(User)
+    tag = models.ManyToManyField('main.Tag', null=True)
 
     def __unicode__(self):
         return self.user.username
@@ -33,7 +33,7 @@ class Comment(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=255)
-    post = models.ManyToManyField('main.Post')
+    posts = models.ManyToManyField('main.Post', null=True)
 
     def __unicode__(self):
         return self.name

@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^signup/$', 'main.views.signup_view'),
     url(r'^logout/$', 'main.views.logout_view'),
     url(r'^$', 'main.views.index'),
+    url(r'^add_tag/$', 'main.views.add_tag'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
