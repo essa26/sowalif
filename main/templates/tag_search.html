@@ -6,9 +6,23 @@
 <body>
     <form action="/tag_search/" method="POST">
         {% csrf_token %}
-        {{ form.as_table }}
+        {{ form.as_p }}
         <input type="submit" value="Search">
     </form>
 
+    </br>
+    </br>
+
+    {{valid}}
+
+    </br>
+    </br>
+
+    {% for post in posts %}
+
+    <a href="/post_detail/{{post.pk}}">{{ post.title }}</a>
+
+    </br>
+    {% endfor %}
 </body>
 </html>
