@@ -8,6 +8,7 @@
             {% csrf_token %}
 
             {{ form.as_p }}
+
             {% if user.is_authenticated %}
                     <input type="hidden" name='author' value="{{ user.pk }}">
                 {% else %}
@@ -18,7 +19,8 @@
 
     </form>
 
-            {{ valid }}
+            {{ form.errors }}
+
 </body>
 </html>
 

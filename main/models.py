@@ -8,7 +8,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User)
     text = models.TextField()
-    tags = models.ManyToManyField('main.Tag')
+    tags = models.ManyToManyField('main.Tag', null=True, blank=True)
     date_created = models.DateTimeField(auto_now=True)
 
 

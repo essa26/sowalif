@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.backends.mysql.base import IntegrityError
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from main.forms import UserSignup, UserLogin, Create_Post, Comment_On
 
@@ -10,17 +10,35 @@ from main.forms import UserSignup, UserLogin, Create_Post, Comment_On
 from main.models import Post
 
 
+def post_list(request):
+    context ={}
+    posts = Post.objects.all()
+    context['posts'] = posts
+
+    return render(request, 'post_list.html', context)
 
 
 def post_create(request):
 
     context = {}
-    form = Create_Post
+    form = Create_Post()
     context['form'] = form
     if request.method == 'POST':
         form = Create_Post(request.POST)
-
+        context['form'] = form
         if form.is_valid():
+            title = form.cleaned_data['title']
+            text = form.cleaned_data['text']
+            author_id = form.cleaned_data['author']
+
+            print author_id
+
+            #author = User.objects.get(pk=author_id)
+
+            form.author = author_id
+
+            print form.author
+
             form.save()
 
             context['valid'] = "Post Created"

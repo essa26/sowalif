@@ -26,5 +26,6 @@ urlpatterns = [
     url(r'^$', 'main.views.index'),
     url(r'^post_detail/(?P<pk>\w+)/$', 'main.views.post_detail_view'),
     url(r'^post_create/$', 'main.views.post_create'),
+    url(r'^post_list/$', 'main.views.post_list'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

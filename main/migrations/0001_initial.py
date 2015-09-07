@@ -18,6 +18,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('author', models.CharField(max_length=255)),
                 ('text', models.TextField()),
+                ('date_created', models.DateTimeField(auto_now=True)),
             ],
         ),
         migrations.CreateModel(
@@ -26,6 +27,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=255)),
                 ('text', models.TextField()),
+                ('date_created', models.DateTimeField(auto_now=True)),
                 ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),
