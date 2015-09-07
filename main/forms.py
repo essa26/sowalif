@@ -1,7 +1,12 @@
 from django import forms
 from django.core.validators import RegexValidator
 from main.models import Post, Comment
-from main.models import Tag
+#from main.models import Tag
+from taggit.managers import TaggableManager
+import datetime
+from taggit.forms import *
+
+
 
 alpha_numeric_validator = RegexValidator('^[a-zA-Z0-9_]+$', 'only letters and numbers')
 
@@ -26,8 +31,7 @@ class UserLogin(forms.Form):
 class CreatePost(forms.Form):
     title = forms.CharField(required=True)
     text = forms.CharField(widget=forms.Textarea())
-    date_created = forms.DateTimeField()
-    tags = forms.CharField()
+    tags = TagField()
 
 
 

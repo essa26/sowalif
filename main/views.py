@@ -4,8 +4,8 @@ from django.db.backends.mysql.base import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
-from main.forms import UserSignup, UserLogin, TagSearch, TagCreate, CreatePost, Comment_On
-from main.models import Post, Comment, Tag
+from main.forms import UserSignup, UserLogin,  CreatePost, Comment_On#, TagSearch, TagCreate,
+from main.models import Post, Comment#, Tag
 # Create your views here.
 
 
@@ -27,29 +27,31 @@ def home(request):
 def post_create(request):
 
     context = {}
-    form = Create_Post()
+    form = CreatePost()
     context['form'] = form
     if request.method == 'POST':
-        form = Create_Post(request.POST)
+        form = CreatePost(request.POST)
         context['form'] = form
         if form.is_valid():
             title = form.cleaned_data['title']
             text = form.cleaned_data['text']
-            author_id = form.cleaned_data['author']
+            author_id = request.POST['author']
             tags = form.cleaned_data['tags']
 
-            print author_id
+            new_obj = Post()
 
             #author = User.objects.get(pk=author_id)
 
-            form.author = author_id
-            form.title = title
-            form.text = text
-            form.
+            new_obj.author = User.objects.get(pk=author_id)
+            new_obj.title = title
+            new_obj.text = text
 
-            print form.author
+            new_obj.save()
 
-            form.save()
+            for tag in tags:
+                new_obj.tags.add(tag)
+
+            new_obj.save()
 
             context['valid'] = "Post Created"
     elif request.method == 'GET':
@@ -58,37 +60,37 @@ def post_create(request):
     return render_to_response('add_post.html', context, context_instance=RequestContext (request))
 
 
-def tag_search(request):
-
-    context = {}
-
-    get = request.GET 
-    post = request.POST
-
-    context['get'] = get
-    context['post'] = post
-
-    form = TagSearch()
-    context['form'] = form
-
-    if request.method == "POST":
-        form = TagSearch(request.POST)
-
-        if form.is_valid():
-            tag = form.cleaned_data['name']
-
-            tags = Tag.objects.filter(name__startswith=tag)
-
-            context['tags'] = tags
-            context['valid'] = "The Form Was Valid"
-
-        else:
-            context['valid'] = form.errors
-        
-    elif request.method == "GET":
-        context['method'] = 'The method was GET'
-
-    return render_to_response('tag_search.html', context, context_instance=RequestContext(request))
+# def tag_search(request):
+#
+#     context = {}
+#
+#     get = request.GET
+#     post = request.POST
+#
+#     context['get'] = get
+#     context['post'] = post
+#
+#     form = TagSearch()
+#     context['form'] = form
+#
+#     if request.method == "POST":
+#         form = TagSearch(request.POST)
+#
+#         if form.is_valid():
+#             tag = form.cleaned_data['name']
+#
+#             tags = Tag.objects.filter(name__startswith=tag)
+#
+#             context['tags'] = tags
+#             context['valid'] = "The Form Was Valid"
+#
+#         else:
+#             context['valid'] = form.errors
+#
+#     elif request.method == "GET":
+#         context['method'] = 'The method was GET'
+#
+#     return render_to_response('tag_search.html', context, context_instance=RequestContext(request))
 
 
 # def tag_create(request):
