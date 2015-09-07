@@ -36,12 +36,16 @@ def post_create(request):
             title = form.cleaned_data['title']
             text = form.cleaned_data['text']
             author_id = form.cleaned_data['author']
+            tags = form.cleaned_data['tags']
 
             print author_id
 
             #author = User.objects.get(pk=author_id)
 
             form.author = author_id
+            form.title = title
+            form.text = text
+            form.
 
             print form.author
 
@@ -87,27 +91,27 @@ def tag_search(request):
     return render_to_response('tag_search.html', context, context_instance=RequestContext(request))
 
 
-def tag_create(request):
-
-    context = {}
-
-    if request.method == 'POST':
-        form = TagCreate(request.POST)
-        context["form"] = form
-
-        if form.is_valid():
-            form.save()
-
-            context['valid'] = "is valid"
-
-        else:
-            context['valid'] = form.errors
-
-    else:
-        form = TagCreate()
-        context['form'] = form
-
-    return render_to_response('tag_create.html', context, context_instance=RequestContext(request))
+# def tag_create(request):
+#
+#     context = {}
+#
+#     if request.method == 'POST':
+#         form = TagCreate(request.POST)
+#         context["form"] = form
+#
+#         if form.is_valid():
+#             form.save()
+#
+#             context['valid'] = "is valid"
+#
+#         else:
+#             context['valid'] = form.errors
+#
+#     else:
+#         form = TagCreate()
+#         context['form'] = form
+#
+#     return render_to_response('tag_create.html', context, context_instance=RequestContext(request))
 
 
 def post_detail_view(request, pk):

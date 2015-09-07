@@ -12,12 +12,6 @@ class TagSearch(forms.Form):
     name = forms.CharField(required=True, validators=[alpha_numeric_validator])
 
 
-class TagCreate(forms.ModelForm):
-    class Meta:
-        model = Tag
-        # fields = '__all__'
-        fields = ['name']
-
 
 class UserSignup(forms.Form):
     username = forms.CharField(required=True, validators=[letter_validator])
@@ -33,7 +27,8 @@ class CreatePost(forms.Form):
     title = forms.CharField(required=True)
     text = forms.CharField(widget=forms.Textarea())
     date_created = forms.DateTimeField()
-    # tags =
+    tags = forms.CharField()
+
 
 
 class Comment_On(forms.ModelForm):
