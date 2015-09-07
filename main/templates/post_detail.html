@@ -10,7 +10,7 @@
 
         <p>{{ post.text }}</p>
         {% for tag in tags %}
-            <p>{{ tag.name }}</p>
+            <b>{{ tag.name }}   |</b>
         {% endfor %}
 
         {% for comment in post.comment_set.all %}
