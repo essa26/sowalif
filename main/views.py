@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from main.forms import UserSignup, UserLogin,  CreatePost, CommentOn, TagSearch#, TagCreate,
-from main.models import Post, Comment#, Tag
+from main.models import Post, Comment, UserProfile
 # Create your views here.
 
 
@@ -156,7 +156,9 @@ def post_detail_view(request, pk):
 
 
 def index(request):
-    context = {'form': UserSignup()}
+    context = {}
+    context['form'] = UserSignup()
+    context['login_form'] = UserLogin()
 
     return render_to_response('signup.html', context, context_instance=RequestContext(request))
 
@@ -175,10 +177,13 @@ def signup_view(request):
             email = "no@email.com"
 
             try:
-                User.objects.create_user(name, email, password)
+                user = User.objects.create_user(name, email, password)
                 context['valid'] = "Thank you for signing up!"
                 auth_user = authenticate(username=name, password=password)
                 login(request, auth_user)
+
+                userprof, created = UserProfile.objects.get_or_create(user=user)
+
                 return HttpResponseRedirect('/')
             except IntegrityError, e:
                 context['valid'] = "A user with that name is already taken. Please try again."
@@ -193,3 +198,42 @@ def signup_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+
+def login_view(request):
+
+    context = {}
+
+    context['form'] = UserLogin()
+
+    username = request.POST.get('username', None)
+    password = request.POST.get('password', None)
+
+    auth_user = authenticate(username=username, password=password)
+
+    if auth_user is not None:
+        if auth_user.is_active:
+            login(request, auth_user)
+            context['valid'] = "Login Successful"
+
+            return HttpResponseRedirect('/')
+        else:
+            context['valid'] = "Invalid User"
+    else:
+        context['valid'] = "Please enter a User"
+
+    return render_to_response('signup.html', context, context_instance=RequestContext(request))
+
+
+def user_detail_add(request):
+    tag = request.POST.get('tag')
+    user = request.user
+    userprof = UserProfile.objects.get(user=user)
+    userprof.tags.add(tag)
+
+    return render_to_response('user_detail.html', {}, context_instance=RequestContext(request))
+
+
+def user_detail(request):
+    return render_to_response('user_detail.html', {}, context_instance=RequestContext(request))
+

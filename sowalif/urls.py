@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^home/$', 'main.views.home'),
     url(r'^signup/$', 'main.views.signup_view'),
+    url(r'^login/$', 'main.views.login_view'),
     url(r'^logout/$', 'main.views.logout_view'),
     url(r'^$', 'main.views.index'),
     url(r'^post_detail/(?P<pk>\w+)/$', 'main.views.post_detail_view'),
@@ -30,4 +31,6 @@ urlpatterns = [
     url(r'^post_list/$', 'main.views.post_list'),
     url(r'^tag_search/$', 'main.views.tag_search'),
     #url(r'^tag_create/$', 'main.views.tag_create'),
+    url(r'^user_detail/$', 'main.views.user_detail'),
+    url(r'^user_detail_add/$', 'main.views.user_detail_add'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

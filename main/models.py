@@ -6,6 +6,14 @@ from taggit.managers import TaggableManager
 # Create your models here.
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    tags = TaggableManager()
+
+    def __unicode__(self):
+        return self.user.username
+
+
 class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User)
