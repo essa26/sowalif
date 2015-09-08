@@ -36,3 +36,5 @@ class CreatePost(forms.Form):
 
 class CommentOn(forms.Form):
     text = forms.CharField(widget=forms.Textarea())
+
+

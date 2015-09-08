@@ -24,10 +24,17 @@ urlpatterns = [
     url(r'^$', 'main.views.index'),
     url(r'^home/$', 'main.views.home'),
     url(r'^signup/$', 'main.views.signup_view'),
+    url(r'^login/$', 'main.views.login_view'),
     url(r'^logout/$', 'main.views.logout_view'),
 
     url(r'^post_detail/(?P<pk>\w+)/$', 'main.views.post_detail_view'),
     url(r'^post_create/$', 'main.views.post_create'),
     url(r'^post_list/$', 'main.views.post_list'),
     url(r'^tag_search/$', 'main.views.tag_search'),
+<<<<<<< HEAD
+=======
+    #url(r'^tag_create/$', 'main.views.tag_create'),
+    url(r'^user_detail/$', 'main.views.user_detail'),
+    url(r'^user_detail_add/$', 'main.views.user_detail_add'),
+>>>>>>> 8eaaa440ed4f6b52ac83cae894e5cec5a1405147
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
