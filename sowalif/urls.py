@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^signup/$', 'main.views.signup_view'),
     url(r'^login/$', 'main.views.login_view'),
     url(r'^logout/$', 'main.views.logout_view'),
-    url(r'^$', 'main.views.index'),
+    url(r'^$', 'main.views.home'),
     url(r'^post_detail/(?P<pk>\w+)/$', 'main.views.post_detail_view'),
     url(r'^post_create/$', 'main.views.post_create'),
     url(r'^post_list/$', 'main.views.post_list'),
