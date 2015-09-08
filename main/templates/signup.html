@@ -10,6 +10,13 @@
         {{ form.as_table }}
         <input type="submit" value="Signup">
     </form>
+
+    <form action="/login/" method="POST">
+        {% csrf_token %}
+        {{ login_form.as_table }}
+        <input type="submit" value="Login">
+    </form>
+
 {% else %}
     Welcome, {{ user.username }}
     <form action="/logout/" method="POST">
