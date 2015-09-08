@@ -30,7 +30,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="index.html" class="navbar-brand">
+                    <a href="/" class="navbar-brand">
                         <img src="{% static 'images/omega.gif' %}" alt="One of the best themes ever">Omega
                     </a>
                 </div>
@@ -384,27 +384,19 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact</a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="contact-big-map.html">Contact Us - Big Map
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="contact-big-map-alt.html">Contact Us - Big Map Alt
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="contact-small-map.html">Contact Us - Small Map
-                                                    
-                                                </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+
+                        {% if not user.is_authenticated %}
+
+                            <li class="dropdown">
+                                <a href="/login/" class="dropdown-toggle" data-toggle="action">Login</a>
+                            </li>
+                        {% else %}
+                            <li class="dropdown">
+                                <a href="/logout/" class="dropdown-toggle" data-toggle="action">Logout</a>
+                            </li>
+                        {% endif %}
+
+
                 </nav>
             </div>
         </div>
