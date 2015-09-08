@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Posts</title>
+</head>
+<body>
+    {% for post in posts %}
+        <h4 href="/post_detail/{{ post.pk }}/">{{ post.title }}</h4>
+        <h5>{{ post.author }}</h5>
+        <p>{{ post.text }}</p>
+
+            {% for tag in post.tag_set.all %}
+                <p>{{ tag.name }}</p>
+            {% endfor %}
+
+    {% endfor %}
+
+</body>
+</html>
