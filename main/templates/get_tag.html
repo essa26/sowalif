@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Post search</title>
+</head>
+<body>
+
+    {% for post in posts %}
+
+    <a href="/post_detail/{{post.pk}}">{{ post.title }}</a>
+
+    </br>
+    {% endfor %}
+</body>
+</html>
