@@ -1,12 +1,14 @@
 from django.contrib.auth.models import User
 from django.db import models
+from taggit.managers import TaggableManager
+
 
 # Create your models here.
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    tag = models.ManyToManyField('main.Tag', null=True)
+    tags = TaggableManager()
 
     def __unicode__(self):
         return self.user.username
@@ -16,9 +18,8 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User)
     text = models.TextField()
-    tags = models.ManyToManyField('main.Tag', null=True, blank=True)
     date_created = models.DateTimeField(auto_now=True)
-
+    tags = TaggableManager()
 
     def __unicode__(self):
         return self.title
@@ -30,13 +31,6 @@ class Comment(models.Model):
     posted_on = models.ForeignKey('main.Post')
     date_created = models.DateTimeField(auto_now=True)
 
-
     def __unicode__(self):
         return self.posted_on.title
 
-
-class Tag(models.Model):
-    name = models.CharField(max_length=255)
-
-    def __unicode__(self):
-        return self.name

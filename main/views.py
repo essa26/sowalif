@@ -5,9 +5,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 
-from main.forms import UserSignup, UserLogin, TagSearch, TagCreate, CreatePost, Comment_On
-from main.models import Post, Comment, Tag
-
+from main.forms import UserSignup, UserLogin,  CreatePost, CommentOn, TagSearch#, TagCreate,
+from main.models import Post, Comment#, Tag
 # Create your views here.
 
 
@@ -26,61 +25,8 @@ def home(request):
     return render_to_response('home.html', context, context_instance=RequestContext(request))
 
 
-def tag_search(request):
+def post_create(request):
 
-    context = {}
-
-    get = request.GET 
-    post = request.POST
-
-    context['get'] = get
-    context['post'] = post
-
-    form = TagSearch()
-    context['form'] = form
-    
-
-    if request.method == "POST":
-        form = TagSearch(request.POST)
-
-        if form.is_valid():
-            tag = form.cleaned_data['name']
-
-            tags = Tag.objects.filter(name__startswith=tag)
-
-            context['tags'] = tags
-            context['valid'] = "The Form Was Valid"
-
-        else:
-            context['valid'] = form.errors
-        
-    elif request.method == "GET":
-        context['method'] = 'The method was GET'
-
-
-    return render_to_response('tag_search.html', context, context_instance=RequestContext(request))
-
-
-def tag_create(request):
->>>>>>> 9dd0c31aa7e2218d9f2710e054dd809e501b0052
-
-    request_context = RequestContext(request)
-    context = {}
-
-    if request.method == 'POST':
-        form = TagCreate(request.POST)
-        context["form"] = form
-
-        if form.is_valid():
-            form.save()
-
-            context['valid'] = "is valid"
-            return render_to_response( "tag_create.html", context, context_instance=request_context )
-
-        else:
-            context['valid'] = form.errors
-
-<<<<<<< HEAD
     context = {}
     form = CreatePost()
     context['form'] = form
@@ -90,66 +36,132 @@ def tag_create(request):
         if form.is_valid():
             title = form.cleaned_data['title']
             text = form.cleaned_data['text']
-            author_id = form.cleaned_data['author']
+            author_id = request.POST['author']
+            tags = form.cleaned_data['tags']
 
-            print author_id
+            new_obj = Post()
 
             #author = User.objects.get(pk=author_id)
 
-            form.author = author_id
+            new_obj.author = User.objects.get(pk=author_id)
+            new_obj.title = title
+            new_obj.text = text
 
-            print form.author
+            new_obj.save()
 
-            form.save()
+            for tag in tags:
+                new_obj.tags.add(tag)
+
+            new_obj.save()
 
             context['valid'] = "Post Created"
     elif request.method == 'GET':
         context['valid'] = form.errors
 
     return render_to_response('add_post.html', context, context_instance=RequestContext (request))
-=======
-            return render_to_response( "tag_create.html", context, context_instance=request_context )
->>>>>>> 9dd0c31aa7e2218d9f2710e054dd809e501b0052
 
-    else:
-        form = TagCreate()
-        context["form"] = form
 
-        return render_to_response( "tag_create.html", context, context_instance=request_context )
+def tag_search(request):
+
+    context = {}
+
+    get = request.GET
+    post = request.POST
+
+    context['get'] = get
+    context['post'] = post
+
+    form = TagSearch()
+    context['form'] = form
+
+    if request.method == "POST":
+        form = TagSearch(request.POST)
+
+        if form.is_valid():
+            tag = form.cleaned_data['name']
+
+            posts = Post.objects.filter(tags__name__in=[tag])
+
+            context['posts'] = posts
+            context['valid'] = "The Form Was Valid"
+
+        else:
+            context['valid'] = form.errors
+
+    elif request.method == "GET":
+        context['method'] = 'The method was GET'
+
+    return render_to_response('tag_search.html', context, context_instance=RequestContext(request))
+
+
+# def tag_create(request):
+#
+#     context = {}
+#
+#     if request.method == 'POST':
+#         form = TagCreate(request.POST)
+#         context["form"] = form
+#
+#         if form.is_valid():
+#             form.save()
+#
+#             context['valid'] = "is valid"
+#
+#         else:
+#             context['valid'] = form.errors
+#
+#     else:
+#         form = TagCreate()
+#         context['form'] = form
+#
+#     return render_to_response('tag_create.html', context, context_instance=RequestContext(request))
 
 
 def post_detail_view(request, pk):
 
     context = {}
 
-    posts = Post.objects.get(pk=pk)
+    post = Post.objects.get(pk=pk)
 
-    form = Comment_On
+    tags = post.tags.all()
+
+    context['tags'] = tags
+
+    form = CommentOn
 
     context['form'] = form
 
-    context['posts'] = posts
+    context['post'] = post
 
     if request.method == 'POST':
-        form = Comment_On(request.POST)
+        form = CommentOn(request.POST)
 
         if form.is_valid():
-            form.save()
+            text = form.cleaned_data['text']
+            author_id = request.POST['author']
+            posted_on = request.POST['posted_on']
+
+            new_obj = Comment()
+
+            new_obj.text = text
+            new_obj.author = User.objects.get(pk=author_id)
+            new_obj.posted_on = Post.objects.get(pk=posted_on)
+
+            new_obj.save()
 
             context['valid'] = "Comment Added"
     elif request.method == 'GET':
         context['valid'] = form.errors
 
-
     return render_to_response('post_detail.html', context, context_instance=RequestContext(request))
->>>>>>> f887e4e7bbddec2b5b4a0711ef7082530a598895
-
-
-def index(request):
-    context = {'form': UserSignup()}
-
-    return render_to_response('signup.html', context, context_instance=RequestContext(request))
-
+# >>>>>>> f887e4e7bbddec2b5b4a0711ef7082530a598895
+#
+#
+# def index(request):
+#     context = {'form': UserSignup()}
+#
+#     return render_to_response('signup.html', context, context_instance=RequestContext(request))
+#
 
 def signup_view(request):
 
@@ -183,24 +195,24 @@ def signup_view(request):
 
     return render_to_response('signup.html', context, context_instance=RequestContext(request))
 
-
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect('/')
-
-
-def add_tag(request):
-    tag_name = request.POST.get('tag')
-    tag, created = Tag.objects.get_or_create(name=tag_name)
-    userprof, created = UserProfile.objects.get_or_create(user=request.user)
-    userprof.tag.add(tag)
-    userprof.save()
-
-    context = {}
-    context['list'] = []
-
-    for tag in userprof.tag.all():
-        context['list'].append(tag)
-
-    return render_to_response('signup.html', context, context_instance=RequestContext(request))
-
+#
+# def logout_view(request):
+#     logout(request)
+#     return HttpResponseRedirect('/')
+#
+#
+# def add_tag(request):
+#     tag_name = request.POST.get('tag')
+#     tag, created = Tag.objects.get_or_create(name=tag_name)
+#     userprof, created = UserProfile.objects.get_or_create(user=request.user)
+#     userprof.tag.add(tag)
+#     userprof.save()
+#
+#     context = {}
+#     context['list'] = []
+#
+#     for tag in userprof.tag.all():
+#         context['list'].append(tag)
+#
+#     return render_to_response('signup.html', context, context_instance=RequestContext(request))
+#
