@@ -5,10 +5,11 @@
     <title>Account Details</title>
 </head>
 <body>
-    <form action="/user_detail_add/" method="POST">
-        {% csrf_token %}
-        <input type="text" name="tag">
-        <input type="submit" value="Add preference">
+{% for tag in tags %}
+    <form action="/tag_search/{{ tag }}/" method="GET">
+        <input type="submit" value="{{ tag }}" name="{{ tag }}">
     </form>
+{% endfor %}
+
 </body>
 </html>

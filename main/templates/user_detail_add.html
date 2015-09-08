@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Details</title>
+</head>
+<body>
+    <form action="/user_detail_add/" method="POST">
+        {% csrf_token %}
+        <input type="text" name="tag">
+        <input type="submit" value="Add preference">
+    </form>
+</body>
+</html>

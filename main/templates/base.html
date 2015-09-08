@@ -38,15 +38,15 @@
                     <div class="menu-sidebar pull-right">
                         <div id="search-4" class="sidebar-widget  widget_search">
 
-                            <form role="search" method="post" id="searchform" action="/get_posts/">
+                            <form role="search" method="post" id="searchform" action="/tag_search/">
                                 {% csrf_token %}
                                 <div class="input-group">
                                     <input type="text" value="" name="tag" id="tag" class="form-control" placeholder="Search">
                                     <span class="input-group-btn">
-                                    <button class="btn" type="submit" id="searchsubmit" value="Search">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
+                                        <button class="btn" type="submit" id="searchsubmit" value="Search">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
                                 </div>
                             </form>
                         </div>
@@ -273,153 +273,36 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Portfolio</a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="portfolio-3-columns.html">3 Columns Classic
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-3-columns-captions.html">3 Columns with Captions
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-3-columns-fullwidth.html">3 Columns Fullwidth
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-3-columns-filters.html">3 Columns with Filters
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-3-columns-no-gutters.html">3 Columns without Gutters
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-single.html">Single Portfolio Page
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-slideshow.html">Single Slideshow page
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-4-columns.html">4 Columns Classic
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-4-columns-captions.html">4 Columns with Captions
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-4-columns-fullwidth.html">4 Columns Fullwidth
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-4-columns-filters.html">4 Columns with Filters
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-4-columns-no-gutters.html">4 Columns without Gutters
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-masonry.html">Masonry
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="portfolio-masonry-alt.html">Masonry alt
-                                                    
-                                                </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog</a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="blog-classic.html">Blog - Classic
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="blog-fullwidth.html">Blog - Fullwidth
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="blog-narrow.html">Blog - Fullwidth Narrow
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="blog-wide.html">Blog - Fullwidth Wide
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="blog-masonry.html">Blog - Masonry
-                                                    
-                                                </a>
-                                </li>
-                                <li role="presentation" class="divider"></li>
-                                <li>
-                                    <a href="blog-post.html">Blog - Single Post
-                                                    
-                                                </a>
-                                </li>
-                            </ul>
-                        </li>
 
-                        {% if not user.is_authenticated %}
-
+                                                {% if not user.is_authenticated %}
+                            <li class="dropdown">
+                                <a href="/signup/" class="dropdown-toggle" data-toggle="action">Signup</a>
+                            </li>
                             <li class="dropdown">
                                 <a href="/login/" class="dropdown-toggle" data-toggle="action">Login</a>
                             </li>
                         {% else %}
+
+                          <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account</a>
+                            <ul class="dropdown-menu">
+
+                                <li>
+                                    <a href="/user_detail_add/">Add a Tag</a>
+                                </li>
+                                <li>
+                                    <a href="/user_detail/">Your Tags</a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+
                             <li class="dropdown">
                                 <a href="/logout/" class="dropdown-toggle" data-toggle="action">Logout</a>
                             </li>
                         {% endif %}
 
-
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact</a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="contact-big-map.html">Contact Us - Big Map
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="contact-big-map-alt.html">Contact Us - Big Map Alt
-                                                    
-                                                </a>
-                                </li>
-                                <li>
-                                    <a href="contact-small-map.html">Contact Us - Small Map
-                                                    
-                                                </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="/user_detail/" class="dropdown-toggle" data-toggle="dropdown">Account</a>
-                        </li>
                     </ul>
                 </nav>
             </div>
