@@ -1,9 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Tag search</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block body %}
+<section id="two" class="section swatch-white">
+   <div class="container">
+      <div class="row element-normal-top element-normal-bottom">
+         <div class="col-md-8 col-md-offset-2">
+
     <form action="/tag_search/" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
@@ -24,5 +27,7 @@
 
     </br>
     {% endfor %}
-</body>
-</html>
+         </div>
+      </div>
+   </div>
+{% endblock %}

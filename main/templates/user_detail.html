@@ -1,15 +1,21 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Account Details</title>
-</head>
-<body>
-{% for tag in tags %}
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block body %}
+<section id="two" class="section swatch-white">
+   <div class="container">
+      <div class="row element-normal-top element-normal-bottom">
+         <div class="col-md-8 col-md-offset-2">
+<h3>Your Favourite Tags:</h3>
+         </br>
+{% for tag in user_tags %}
     <form action="/tag_search/{{ tag }}/" method="GET">
         <input type="submit" value="{{ tag }}" name="{{ tag }}">
     </form>
+    </br>
 {% endfor %}
+         </div>
+      </div>
+   </div>
 
-</body>
-</html>
+{% endblock %}

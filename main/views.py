@@ -21,6 +21,20 @@ def home(request):
 
     context = {}
 
+    posts = Post.objects.all()
+
+    context['posts'] = posts
+
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+
     return render_to_response('home.html', context, context_instance=RequestContext(request))
 
 
@@ -54,13 +68,25 @@ def post_create(request):
             new_obj.save()
 
             context['valid'] = "Post Created"
+
+            return HttpResponseRedirect('/')
     elif request.method == 'GET':
         context['valid'] = form.errors
+
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
 
     return render_to_response('add_post.html', context, context_instance=RequestContext (request))
 
 
-def tag_search(request):
+def tag_search(request, tag=""):
 
     context = {}
 
@@ -79,7 +105,7 @@ def tag_search(request):
         if form.is_valid():
             tag = form.cleaned_data['name']
 
-            posts = Post.objects.filter(tags__name__in=[tag])
+            posts = Post.objects.filter(tags__name__icontains=tag)
 
             context['posts'] = posts
             context['valid'] = "The Form Was Valid"
@@ -88,7 +114,19 @@ def tag_search(request):
             context['valid'] = form.errors
 
     elif request.method == "GET":
-        context['method'] = 'The method was GET'
+        posts = Post.objects.filter(tags__name__icontains=tag)
+
+        context['posts'] = posts
+
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
 
     return render_to_response('tag_search.html', context, context_instance=RequestContext(request))
 
@@ -152,14 +190,34 @@ def post_detail_view(request, pk):
     elif request.method == 'GET':
         context['valid'] = form.errors
 
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+
     return render_to_response('post_detail.html', context, context_instance=RequestContext(request))
 
 
 def index(request):
+
     context = {}
     context['form'] = UserSignup()
     context['login_form'] = UserLogin()
 
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
     return render_to_response('signup.html', context, context_instance=RequestContext(request))
 
 
@@ -192,6 +250,15 @@ def signup_view(request):
             context['valid'] = form.errors
     context['signup'] = UserSignup()
 
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
     return render_to_response('signup.html', context, context_instance=RequestContext(request))
 
 
@@ -222,18 +289,60 @@ def login_view(request):
     else:
         context['valid'] = "Please enter a User"
 
-    return render_to_response('signup.html', context, context_instance=RequestContext(request))
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+    return render_to_response('login.html', context, context_instance=RequestContext(request))
 
 
 def user_detail_add(request):
-    tag = request.POST.get('tag')
+
+    context = {}
+
+    if request.method == 'POST':
+        tag = request.POST.get('tag')
+        user = request.user
+        userprof = UserProfile.objects.get(user=user)
+        userprof.tags.add(tag)
+
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+
+    return render_to_response('user_detail_add.html', {}, context_instance=RequestContext(request))
+
+
+def user_tags_view(request):
     user = request.user
     userprof = UserProfile.objects.get(user=user)
-    userprof.tags.add(tag)
+    user_tags = userprof.tags.all()
+    context = {}
+    context['user_tags'] = user_tags
 
-    return render_to_response('user_detail.html', {}, context_instance=RequestContext(request))
+    if request.user.is_authenticated():
 
+        user = request.user
 
-def user_detail(request):
-    return render_to_response('user_detail.html', {}, context_instance=RequestContext(request))
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+    return render_to_response('user_detail.html', context, context_instance=RequestContext(request))
+#
+# def get_tags(request):
+#
+#     tag =
 

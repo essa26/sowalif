@@ -30,7 +30,8 @@ urlpatterns = [
     url(r'^post_create/$', 'main.views.post_create'),
     url(r'^post_list/$', 'main.views.post_list'),
     url(r'^tag_search/$', 'main.views.tag_search'),
+    url(r'^tag_search/(?P<tag>\w+)/$', 'main.views.tag_search'),
     #url(r'^tag_create/$', 'main.views.tag_create'),
-    url(r'^user_detail/$', 'main.views.user_detail'),
+    url(r'^user_detail/$', 'main.views.user_tags_view'),
     url(r'^user_detail_add/$', 'main.views.user_detail_add'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

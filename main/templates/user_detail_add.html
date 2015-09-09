@@ -1,14 +1,20 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Account Details</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block body %}
+<section id="two" class="section swatch-white">
+   <div class="container">
+      <div class="row element-normal-top element-normal-bottom">
+         <div class="col-md-8 col-md-offset-2">
+<h3>Add A Favourite Tag:</h3>
+             </br>
     <form action="/user_detail_add/" method="POST">
         {% csrf_token %}
         <input type="text" name="tag">
         <input type="submit" value="Add preference">
-    </form>
-</body>
-</html>
+
+         </div>
+      </div>
+   </div>
+
+{% endblock %}
