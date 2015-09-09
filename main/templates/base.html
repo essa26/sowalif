@@ -42,10 +42,10 @@
                     <div class="menu-sidebar pull-right">
                         <div id="search-4" class="sidebar-widget  widget_search">
 
-                            <form role="search" method="post" id="searchform" action="/tag_search/">
+                            <form role="search" method="GET" id="searchform" action="/tag_search/{{ query }}">
                                 {% csrf_token %}
                                 <div class="input-group">
-                                    <input type="text" value="" name="tag" id="tag" class="form-control" placeholder="Search">
+                                    <input type="text" value="" name="{{ query }}" id="searchform" class="form-control" placeholder="Search">
                                     <span class="input-group-btn">
                                         <button class="btn" type="submit" id="searchsubmit" value="Search">
                                             <i class="fa fa-search"></i>
