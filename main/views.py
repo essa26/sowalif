@@ -9,10 +9,20 @@ from main.models import Post, Comment, UserProfile
 # Create your views here.
 
 
-def post_list(request):
+def date_list(request):
     context ={}
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-date_created')
     context['posts'] = posts
+
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
 
     return render(request, 'post_list.html', context)
 
@@ -341,8 +351,99 @@ def user_tags_view(request):
 
         context['home_tags'] = home_tags
     return render_to_response('user_detail.html', context, context_instance=RequestContext(request))
-#
-# def get_tags(request):
-#
-#     tag =
+
+def hometest(request):
+
+    context = {}
+
+    posts = Post.objects.all().order_by('-date_created')
+
+    context['posts'] = posts
+
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+
+    return render_to_response('hometest.html', context, context_instance=RequestContext(request))
+
+def vote(request, pk):
+
+    if request.user.is_authenticated():
+
+        user = User.objects.get(pk=request.user.pk)
+
+    else:
+
+        user = User.objects.get(pk=88)
+
+    vote_type = request.GET.get('vote_type', None)
+
+    post = Post.objects.get(pk=pk)
+
+
+    print post
+    print user
+    if vote_type == 'up':
+        print post.down_votes
+        post.up_votes.add(user)
+
+        try:
+            post.down_votes.get(pk=request.user.pk)
+            post.down_votes.remove(user)
+        except Exception, e:
+            print 'e'
+
+    if vote_type == 'down':
+        post.down_votes.add(user)
+
+        try:
+            post.up_votes.get(pk=request.user.pk)
+            post.up_votes.remove(user)
+        except Exception, e:
+            print 'e'
+
+    return HttpResponseRedirect('/post_list/')
+
+
+def popular_list(request):
+    context ={}
+    posts = Post.objects.all().order_by('-up_votes')
+    context['posts'] = posts
+
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+
+    return render(request, 'post_list.html', context)
+
+def unpopular_list(request):
+    context ={}
+    posts = Post.objects.all().order_by('-down_votes')
+    context['posts'] = posts
+
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+
+    return render(request, 'post_list.html', context)
+
+
 

@@ -20,6 +20,8 @@ class Post(models.Model):
     text = models.TextField()
     date_created = models.DateTimeField(auto_now=True)
     tags = TaggableManager()
+    up_votes = models.ManyToManyField(User, blank=True, related_name='up_votes')
+    down_votes = models.ManyToManyField(User, blank=True, related_name='down_votes')
 
     def __unicode__(self):
         return self.title
@@ -33,5 +35,6 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return self.posted_on.title
+
 
 

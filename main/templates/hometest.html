@@ -15,10 +15,18 @@
                      <a href="/post_detail/{{post.pk}}">
                      {{ post.title }}
                      </a>
+                      {% if request.user.is_authenticated %}
+    	<h4><a href="/vote/{{ post.pk }}/?vote_type=up">Vote Up: {{ post.up_votes.count }}</a></h4>
+    	--- <h4><a href="/vote/{{ post.pk }}/?vote_type=down">Vote Down: {{ post.down_votes.count }}</a></h4>
+                  {% else %}
+                      <h4><a href="/login/">Login to Vote!</a></h4>
+                          	{% endif %}
+
+
                   </h2>
                   <small> by
-                  {{ post.author }}
-                  {{ post.date_created }} ,
+                  {{ post.author }},
+                  {{ post.date_created }}
                   </small>
 
                </header>
