@@ -1,0 +1,49 @@
+{% extends 'basetest.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block body %}
+<section id="two" class="section swatch-white">
+   <div class="container">
+      <div class="row element-normal-top element-normal-bottom">
+             {% for post in posts %}
+
+         <div class="col-xs-12 col-sm-6 col-md-3">
+            <article class="post post-showinfo">
+
+               <header class="post-head">
+                  <h2 class="post-title">
+                     <a href="/post_detail/{{post.pk}}">
+                     {{ post.title }}
+                     </a>
+                  </h2>
+                  <small> by
+                  {{ post.author }}
+                  {{ post.date_created }} ,
+                  </small>
+
+               </header>
+               <div class="post-body">
+                  <p>
+                     {{ post.text }}
+                  </p>
+                   <p> tags:
+                    {% for tag in post.tags.all %}
+                       <a href="/tag_search/{{ tag }}/" method="GET">
+        <input type="submit" value="{{ tag }}" name="{{ tag }}">
+    </a>
+                    {% endfor %}
+                  </p>
+                  <a class="post-more-link btn btn-default" href="/post_detail/{{post.pk}}">
+                  read more
+                  </a>
+               </div>
+            </article>
+
+         </section>
+        </div>
+    {% endfor %}
+    </div>
+    </div>
+
+
+{% endblock %}
