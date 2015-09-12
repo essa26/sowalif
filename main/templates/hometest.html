@@ -16,8 +16,8 @@
                      {{ post.title }}
                      </a>
                       {% if request.user.is_authenticated %}
-    	<h4><a href="/vote/{{ post.pk }}/?vote_type=up">Vote Up: {{ post.up_votes.count }}</a></h4>
-    	--- <h4><a href="/vote/{{ post.pk }}/?vote_type=down">Vote Down: {{ post.down_votes.count }}</a></h4>
+    	<h4 class="upvote" id="{{ post.pk }}">Vote Up: {{ post.up_votes.count }}</h4>
+    	--- <h4 class="downvote" id="{{ post.pk }}">Vote Down: {{ post.down_votes.count }}</h4>
                   {% else %}
                       <h4><a href="/login/">Login to Vote!</a></h4>
                           	{% endif %}
@@ -52,6 +52,47 @@
     {% endfor %}
     </div>
     </div>
+
+    <script>
+        $('.upvote').on('click', function(e) {
+            console.log('voted up!');
+            var postpk = e.target.id;
+            console.log(postpk);
+            $.ajax({
+                // defines request type
+                type: 'POST',
+                // defines the url
+                url: '/upvote/',
+                // defines the data to be sent to the server ('1' meaning upvote)
+                data: { postpk: postpk },
+                error: function() { console.log('error in upvoting')},
+                success: function(data) {
+                    console.log('successfully upvoted! ...probably');
+
+                },
+            });
+
+        });
+        $('.downvote').on('click', function(e) {
+            console.log('voted down!');
+            var postpk = e.target.id;
+            console.log(postpk);
+            $.ajax({
+                // defines request type
+                type: 'POST',
+                // defines the url
+                url: '/downvote/',
+                // defines the data to be sent to the server ('1' meaning upvote)
+                data: { postpk: postpk },
+                error: function() { console.log('error in downvoting')},
+                success: function(data) {
+                    console.log('successfully downvoted! ...probably');
+
+                },
+            });
+
+        });
+</script>
 
 
 {% endblock %}

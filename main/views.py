@@ -383,9 +383,9 @@ def vote(request, pk):
 
         user = User.objects.get(pk=request.user.pk)
 
-    else:
-
-        user = User.objects.get(pk=88)
+    # else:
+    #
+    #     user = User.objects.get(pk=88)
 
     vote_type = request.GET.get('vote_type', None)
 
@@ -478,3 +478,27 @@ def handler500(request):
     return response
 
 
+def upvote(request):
+    if request.user.is_authenticated():
+        user = User.objects.get(pk=request.user.pk)
+        postpk = request.GET.get('postpk', None)
+        post = Post.objects.get(pk=postpk)
+        post.up_votes.add(user)
+        try:
+            post.down_votes.get(pk=request.user.pk)
+            post.down_votes.remove(user)
+        except Exception, e:
+            print 'e'
+
+
+def downvote(request):
+    if request.user.is_authenticated():
+        user = User.objects.get(pk=request.user.pk)
+        postpk = request.GET.get('postpk', None)
+        post = Post.objects.get(pk=postpk)
+        post.down_votes.add(user)
+        try:
+            post.up_votes.get(pk=request.user.pk)
+            post.up_votes.remove(user)
+        except Exception, e:
+            print 'e'
