@@ -19,7 +19,10 @@
     	<h4><a href="/vote/{{ post.pk }}/?vote_type=up">Vote Up: {{ post.up_votes.count }}</a></h4>
     	--- <h4><a href="/vote/{{ post.pk }}/?vote_type=down">Vote Down: {{ post.down_votes.count }}</a></h4>
                   {% else %}
-                      <h4><a href="/login/">Login to Vote!</a></h4>
+                          <h4>Vote Up: {{ post.up_votes.count }}</h4>
+    	                  <h4>Vote Down: {{ post.down_votes.count }}</h4>
+
+                      <h5><a href="/login/">Login to Vote!</a></h5>
                           	{% endif %}
 
 

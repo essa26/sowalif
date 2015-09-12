@@ -374,6 +374,11 @@ def hometest(request):
 
 def vote(request, pk):
 
+    context = {}
+
+    redirect_to = request.REQUEST.get('next', '')
+
+
     if request.user.is_authenticated():
 
         user = User.objects.get(pk=request.user.pk)
@@ -398,6 +403,7 @@ def vote(request, pk):
             post.down_votes.remove(user)
         except Exception, e:
             print 'e'
+        return HttpResponseRedirect(redirect_to)
 
     if vote_type == 'down':
         post.down_votes.add(user)
@@ -408,7 +414,9 @@ def vote(request, pk):
         except Exception, e:
             print 'e'
 
-    return HttpResponseRedirect('/post_list/')
+        return HttpResponseRedirect(redirect_to)
+
+    return render_to_response('vote.html', context, context_instance=RequestContext(request))
 
 
 def popular_list(request):
@@ -445,5 +453,28 @@ def unpopular_list(request):
 
     return render(request, 'post_list.html', context)
 
+
+def handler404(request):
+
+    context = {}
+
+    response = render_to_response('404.html', context,
+                                  context_instance=RequestContext(request))
+    response.status_code = 404
+
+    context['response'] = response
+    return response
+
+
+def handler500(request):
+
+    context = {}
+
+    response = render_to_response('500.html', context,
+                                  context_instance=RequestContext(request))
+    context['response'] = response
+
+    response.status_code = 500
+    return response
 
 
