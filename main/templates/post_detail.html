@@ -17,6 +17,14 @@
                   {{ post.author }}
                   {{ post.date_created }} ,
                   </small>
+
+                    {% if request.user.is_authenticated %}
+    	<h4 class="upvote" id="{{ post.pk }}">Vote Up: <span id="upnum">{{ post.up_votes.count }}</span></h4>
+    	--- <h4 class="downvote" id="{{ post.pk }}">Vote Down:<span id="downnum">{{ post.down_votes.count }}</span></h4>
+                  {% else %}
+                      <h4><a href="/login/">Login to Vote!</a></h4>
+                          	{% endif %}
+
                </header>
                <div class="post-body">
                   <p>
@@ -51,4 +59,47 @@
 </div>
 </div>
 </div>
+
+            <script>
+                $('.upvote').on('click', function(e) {
+                    console.log('voted up!');
+                    var postpk = e.target.id;
+                    console.log(postpk);
+                    $.ajax({
+                        // defines request type
+                        type: 'GET',
+                        // defines the url
+                        url: '/upvote/',
+                        // defines the data to be sent to the server ('1' meaning upvote)
+                        data: { postpk: postpk },
+                        error: function() { console.log('error in upvoting')},
+                        success: function(data) {
+                            console.log(data[1]);
+                            $("#downnum").text(data[1]);
+                            $("#upnum").text(data[0]);
+
+                        },
+                    });
+
+                });
+                $('.downvote').on('click', function(e) {
+                    console.log('voted down!');
+                    var postpk = e.target.id;
+                    console.log(postpk);
+                    $.ajax({
+                        // defines request type
+                        type: 'GET',
+                        // defines the url
+                        url: '/downvote/',
+                        // defines the data to be sent to the server ('1' meaning upvote)
+                        data: { postpk: postpk },
+                        error: function() { console.log('error in downvoting')},
+                        success: function(data) {
+                            $("#downnum").text(data[1]);
+                            $("#upnum").text(data[0]);
+                        },
+                    });
+
+                });
+</script>
 {% endblock %}

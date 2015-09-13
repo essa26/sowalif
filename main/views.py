@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.backends.mysql.base import IntegrityError
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from main.forms import UserSignup, UserLogin,  CreatePost, CommentOn, TagSearch#, TagCreate,
@@ -132,7 +132,7 @@ def post_create(request):
     return render_to_response('add_post.html', context, context_instance=RequestContext (request))
 
 
-def tag_search(request, tag=""):
+def tag_search(request):
 
     context = {}
 
@@ -145,11 +145,13 @@ def tag_search(request, tag=""):
     form = TagSearch()
     context['form'] = form
 
-    if request.method == "POST":
-        form = TagSearch(request.POST)
+    if request.method == "GET":
+        form = TagSearch(request.GET)
 
         if form.is_valid():
             tag = form.cleaned_data['name']
+
+            print tag
 
             posts = Post.objects.filter(tags__name__icontains=tag)
 
@@ -159,10 +161,6 @@ def tag_search(request, tag=""):
         else:
             context['valid'] = form.errors
 
-    elif request.method == "GET":
-        posts = Post.objects.filter(tags__name__icontains=tag)
-
-        context['posts'] = posts
 
     if request.user.is_authenticated():
 
@@ -369,52 +367,6 @@ def user_tags_view(request):
 #this vote view worked but the redirects were not correct
 
 
-def vote(request, pk):
-
-    context = {}
-
-    redirect_to = request.REQUEST.get('next', '')
-
-
-    if request.user.is_authenticated():
-
-        user = User.objects.get(pk=request.user.pk)
-
-    # else:
-    #
-    #     user = User.objects.get(pk=88)
-
-    vote_type = request.GET.get('vote_type', None)
-
-    post = Post.objects.get(pk=pk)
-
-
-    print post
-    print user
-    if vote_type == 'up':
-        print post.down_votes
-        post.up_votes.add(user)
-
-        try:
-            post.down_votes.get(pk=request.user.pk)
-            post.down_votes.remove(user)
-        except Exception, e:
-            print 'e'
-        return HttpResponseRedirect(redirect_to)
-
-    if vote_type == 'down':
-        post.down_votes.add(user)
-
-        try:
-            post.up_votes.get(pk=request.user.pk)
-            post.up_votes.remove(user)
-        except Exception, e:
-            print 'e'
-
-        return HttpResponseRedirect(redirect_to)
-
-    return render_to_response('vote.html', context, context_instance=RequestContext(request))
-
 
 def upvote(request):
     if request.user.is_authenticated():
@@ -429,6 +381,8 @@ def upvote(request):
             print 'e'
 
 
+    return HttpResponse(['%s' % post.up_votes.count(),'%s' % post.down_votes.count()])
+
 def downvote(request):
     if request.user.is_authenticated():
         user = User.objects.get(pk=request.user.pk)
@@ -441,6 +395,7 @@ def downvote(request):
         except Exception, e:
             print 'e'
 
+    return HttpResponse(['%s' % post.up_votes.count(),'%s' % post.down_votes.count()])
 
 
 
@@ -510,4 +465,50 @@ def hometest(request):
 #         context['form'] = form
 #
 #     return render_to_response('tag_create.html', context, context_instance=RequestContext(request))
+
+# def vote(request, pk):
+#
+#     context = {}
+#
+#     redirect_to = request.REQUEST.get('next', '')
+#
+#
+#     if request.user.is_authenticated():
+#
+#         user = User.objects.get(pk=request.user.pk)
+#
+#     # else:
+#     #
+#     #     user = User.objects.get(pk=88)
+#
+#     vote_type = request.GET.get('vote_type', None)
+#
+#     post = Post.objects.get(pk=pk)
+#
+#
+#     print post
+#     print user
+#     if vote_type == 'up':
+#         print post.down_votes
+#         post.up_votes.add(user)
+#
+#         try:
+#             post.down_votes.get(pk=request.user.pk)
+#             post.down_votes.remove(user)
+#         except Exception, e:
+#             print 'e'
+#         return HttpResponseRedirect(redirect_to)
+#
+#     if vote_type == 'down':
+#         post.down_votes.add(user)
+#
+#         try:
+#             post.up_votes.get(pk=request.user.pk)
+#             post.up_votes.remove(user)
+#         except Exception, e:
+#             print 'e'
+#
+#         return HttpResponseRedirect(redirect_to)
+#
+#     return render_to_response('vote.html', context, context_instance=RequestContext(request))
 
