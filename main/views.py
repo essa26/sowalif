@@ -27,6 +27,42 @@ def date_list(request):
     return render(request, 'post_list.html', context)
 
 
+def popular_list(request):
+    context = {}
+    posts = Post.objects.all().order_by('-up_votes')
+    context['posts'] = posts
+
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+
+    return render(request, 'post_list.html', context)
+
+
+def unpopular_list(request):
+    context = {}
+    posts = Post.objects.all().order_by('-down_votes')
+    context['posts'] = posts
+
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+
+    return render(request, 'post_list.html', context)
+
+
 def home(request):
 
     context = {}
@@ -141,29 +177,6 @@ def tag_search(request, tag=""):
     return render_to_response('tag_search.html', context, context_instance=RequestContext(request))
 
 
-# def tag_create(request):
-#
-#     context = {}
-#
-#     if request.method == 'POST':
-#         form = TagCreate(request.POST)
-#         context["form"] = form
-#
-#         if form.is_valid():
-#             form.save()
-#
-#             context['valid'] = "is valid"
-#
-#         else:
-#             context['valid'] = form.errors
-#
-#     else:
-#         form = TagCreate()
-#         context['form'] = form
-#
-#     return render_to_response('tag_create.html', context, context_instance=RequestContext(request))
-
-
 def post_detail_view(request, pk):
 
     context = {}
@@ -272,11 +285,6 @@ def signup_view(request):
     return render_to_response('signup.html', context, context_instance=RequestContext(request))
 
 
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect('/')
-
-
 def login_view(request):
 
     context = {}
@@ -309,6 +317,11 @@ def login_view(request):
 
         context['home_tags'] = home_tags
     return render_to_response('login.html', context, context_instance=RequestContext(request))
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')
 
 
 def user_detail_add(request):
@@ -352,25 +365,9 @@ def user_tags_view(request):
         context['home_tags'] = home_tags
     return render_to_response('user_detail.html', context, context_instance=RequestContext(request))
 
-def hometest(request):
 
-    context = {}
+#this vote view worked but the redirects were not correct
 
-    posts = Post.objects.all().order_by('-date_created')
-
-    context['posts'] = posts
-
-    if request.user.is_authenticated():
-
-        user = request.user
-
-        userprof = UserProfile.objects.get(user=user)
-
-        home_tags = userprof.tags.all()
-
-        context['home_tags'] = home_tags
-
-    return render_to_response('hometest.html', context, context_instance=RequestContext(request))
 
 def vote(request, pk):
 
@@ -419,39 +416,32 @@ def vote(request, pk):
     return render_to_response('vote.html', context, context_instance=RequestContext(request))
 
 
-def popular_list(request):
-    context ={}
-    posts = Post.objects.all().order_by('-up_votes')
-    context['posts'] = posts
-
+def upvote(request):
     if request.user.is_authenticated():
+        user = User.objects.get(pk=request.user.pk)
+        postpk = request.GET.get('postpk', None)
+        post = Post.objects.get(pk=postpk)
+        post.up_votes.add(user)
+        try:
+            post.down_votes.get(pk=request.user.pk)
+            post.down_votes.remove(user)
+        except Exception, e:
+            print 'e'
 
-        user = request.user
 
-        userprof = UserProfile.objects.get(user=user)
-
-        home_tags = userprof.tags.all()
-
-        context['home_tags'] = home_tags
-
-    return render(request, 'post_list.html', context)
-
-def unpopular_list(request):
-    context ={}
-    posts = Post.objects.all().order_by('-down_votes')
-    context['posts'] = posts
-
+def downvote(request):
     if request.user.is_authenticated():
+        user = User.objects.get(pk=request.user.pk)
+        postpk = request.GET.get('postpk', None)
+        post = Post.objects.get(pk=postpk)
+        post.down_votes.add(user)
+        try:
+            post.up_votes.get(pk=request.user.pk)
+            post.up_votes.remove(user)
+        except Exception, e:
+            print 'e'
 
-        user = request.user
 
-        userprof = UserProfile.objects.get(user=user)
-
-        home_tags = userprof.tags.all()
-
-        context['home_tags'] = home_tags
-
-    return render(request, 'post_list.html', context)
 
 
 def handler404(request):
@@ -478,27 +468,46 @@ def handler500(request):
     return response
 
 
-def upvote(request):
+def hometest(request):
+
+    context = {}
+
+    posts = Post.objects.all().order_by('-date_created')
+
+    context['posts'] = posts
+
     if request.user.is_authenticated():
-        user = User.objects.get(pk=request.user.pk)
-        postpk = request.GET.get('postpk', None)
-        post = Post.objects.get(pk=postpk)
-        post.up_votes.add(user)
-        try:
-            post.down_votes.get(pk=request.user.pk)
-            post.down_votes.remove(user)
-        except Exception, e:
-            print 'e'
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+
+    return render_to_response('hometest.html', context, context_instance=RequestContext(request))
 
 
-def downvote(request):
-    if request.user.is_authenticated():
-        user = User.objects.get(pk=request.user.pk)
-        postpk = request.GET.get('postpk', None)
-        post = Post.objects.get(pk=postpk)
-        post.down_votes.add(user)
-        try:
-            post.up_votes.get(pk=request.user.pk)
-            post.up_votes.remove(user)
-        except Exception, e:
-            print 'e'
+# def tag_create(request):
+#
+#     context = {}
+#
+#     if request.method == 'POST':
+#         form = TagCreate(request.POST)
+#         context["form"] = form
+#
+#         if form.is_valid():
+#             form.save()
+#
+#             context['valid'] = "is valid"
+#
+#         else:
+#             context['valid'] = form.errors
+#
+#     else:
+#         form = TagCreate()
+#         context['form'] = form
+#
+#     return render_to_response('tag_create.html', context, context_instance=RequestContext(request))
+
