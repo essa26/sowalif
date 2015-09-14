@@ -7,6 +7,15 @@
       <div class="row element-normal-top element-normal-bottom">
          <div class="col-md-8 col-md-offset-2">
 
+
+
+<div class="alert alert-danger" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only">Error:</span>
+{{ valid }}
+</div>
+
+
 <form action='/login/' method = "POST">
 {% csrf_token %}
 {{ form.as_p }}
@@ -14,6 +23,8 @@
 <input type='submit' value='Login'/>
 
 </form>
+
+
              </br>
 
              <form action="/signup/" method="POST">

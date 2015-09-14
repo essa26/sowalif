@@ -18,10 +18,12 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User)
     text = models.TextField()
+    #image = models.ImageField(upload_to='image', null=True, blank=True)
     date_created = models.DateTimeField(auto_now=True)
     tags = TaggableManager()
     up_votes = models.ManyToManyField(User, blank=True, related_name='up_votes')
     down_votes = models.ManyToManyField(User, blank=True, related_name='down_votes')
+
 
     def __unicode__(self):
         return self.title

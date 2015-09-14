@@ -161,6 +161,7 @@ def post_create(request):
             text = form.cleaned_data['text']
             author_id = request.POST['author']
             tags = form.cleaned_data['tags']
+            #image = form.cleaned_data['image']
 
             new_obj = Post()
 
@@ -169,6 +170,7 @@ def post_create(request):
             new_obj.author = User.objects.get(pk=author_id)
             new_obj.title = title
             new_obj.text = text
+            #new_obj.image = image
 
             new_obj.save()
 
@@ -489,6 +491,22 @@ def hometest(request):
 
     return render_to_response('hometest.html', context, context_instance=RequestContext(request))
 
+
+def about(request):
+
+    context = {}
+
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+
+    return render_to_response('about.html', context, context_instance=RequestContext(request))
 
 # def index(request):
 #

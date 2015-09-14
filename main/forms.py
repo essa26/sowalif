@@ -31,6 +31,7 @@ class UserLogin(forms.Form):
 class CreatePost(forms.Form):
     title = forms.CharField(required=True)
     text = forms.CharField(widget=forms.Textarea())
+    #image = forms.ImageField()
     tags = TagField()
 
 

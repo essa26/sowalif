@@ -39,5 +39,6 @@ urlpatterns = [
     url(r'^vote/(?P<pk>\d+)/$', 'main.views.vote'),
     url(r'^upvote/$', 'main.views.upvote'),
     url(r'^downvote/$', 'main.views.downvote'),
+    url(r'^about/$', 'main.views.about'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

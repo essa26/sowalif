@@ -17,7 +17,12 @@
                   {{ post.author }}
                   {{ post.date_created }} ,
                   </small>
-                            {% if request.user.is_authenticated %}
+
+
+
+
+
+                          {% if request.user.is_authenticated %}
                                 <h4 class="upvote" id="{{ post.pk }}">Vote Up: <span
                                         id="upnum{{ post.pk }}">{{ post.up_votes.count }}</span></h4>
                                 ---<h4 class="downvote" id="{{ post.pk }}">Vote Down:<span
@@ -59,6 +64,7 @@
                </div>
             </article>
 </section>
+
 </div>
 </div>
 </div>
