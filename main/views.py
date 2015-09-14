@@ -6,12 +6,65 @@ from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from main.forms import UserSignup, UserLogin,  CreatePost, CommentOn, TagSearch#, TagCreate,
 from main.models import Post, Comment, UserProfile
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+
 # Create your views here.
 
 
-def date_list(request):
-    context ={}
+def home(request):
+
     posts = Post.objects.all().order_by('-date_created')
+
+    paginator = Paginator(posts, 10)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except Exception, e:
+        page = 1
+
+    try:
+
+        posts = paginator.page(page)
+
+    except (InvalidPage, EmptyPage):
+        posts = paginator.page(paginator.num_pages)
+
+    context = {}
+
+    context['posts'] = posts
+
+    if request.user.is_authenticated():
+
+        user = request.user
+
+        userprof = UserProfile.objects.get(user=user)
+
+        home_tags = userprof.tags.all()
+
+        context['home_tags'] = home_tags
+
+    return render_to_response('home.html', context, context_instance=RequestContext(request))
+
+
+def date_list(request):
+    posts = Post.objects.all().order_by('-date_created')
+
+    paginator = Paginator(posts, 16)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except Exception, e:
+        page = 1
+
+    try:
+
+        posts = paginator.page(page)
+
+    except (InvalidPage, EmptyPage):
+        posts = paginator.page(paginator.num_pages)
+
+    context = {}
+
     context['posts'] = posts
 
     if request.user.is_authenticated():
@@ -28,8 +81,24 @@ def date_list(request):
 
 
 def popular_list(request):
-    context = {}
     posts = Post.objects.all().order_by('-up_votes')
+
+    paginator = Paginator(posts, 16)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except Exception, e:
+        page = 1
+
+    try:
+
+        posts = paginator.page(page)
+
+    except (InvalidPage, EmptyPage):
+        posts = paginator.page(paginator.num_pages)
+
+    context = {}
+
     context['posts'] = posts
 
     if request.user.is_authenticated():
@@ -46,8 +115,24 @@ def popular_list(request):
 
 
 def unpopular_list(request):
-    context = {}
     posts = Post.objects.all().order_by('-down_votes')
+
+    paginator = Paginator(posts, 16)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except Exception, e:
+        page = 1
+
+    try:
+
+        posts = paginator.page(page)
+
+    except (InvalidPage, EmptyPage):
+        posts = paginator.page(paginator.num_pages)
+
+    context = {}
+
     context['posts'] = posts
 
     if request.user.is_authenticated():
@@ -61,27 +146,6 @@ def unpopular_list(request):
         context['home_tags'] = home_tags
 
     return render(request, 'post_list.html', context)
-
-
-def home(request):
-
-    context = {}
-
-    posts = Post.objects.all().order_by('-date_created')
-
-    context['posts'] = posts
-
-    if request.user.is_authenticated():
-
-        user = request.user
-
-        userprof = UserProfile.objects.get(user=user)
-
-        home_tags = userprof.tags.all()
-
-        context['home_tags'] = home_tags
-
-    return render_to_response('home.html', context, context_instance=RequestContext(request))
 
 
 def post_create(request):
@@ -222,24 +286,6 @@ def post_detail_view(request, pk):
         context['home_tags'] = home_tags
 
     return render_to_response('post_detail.html', context, context_instance=RequestContext(request))
-
-
-def index(request):
-
-    context = {}
-    context['form'] = UserSignup()
-    context['login_form'] = UserLogin()
-
-    if request.user.is_authenticated():
-
-        user = request.user
-
-        userprof = UserProfile.objects.get(user=user)
-
-        home_tags = userprof.tags.all()
-
-        context['home_tags'] = home_tags
-    return render_to_response('signup.html', context, context_instance=RequestContext(request))
 
 
 def signup_view(request):
@@ -443,6 +489,25 @@ def hometest(request):
 
     return render_to_response('hometest.html', context, context_instance=RequestContext(request))
 
+
+# def index(request):
+#
+#     context = {}
+#     context['form'] = UserSignup()
+#     context['login_form'] = UserLogin()
+#
+#     if request.user.is_authenticated():
+#
+#         user = request.user
+#
+#         userprof = UserProfile.objects.get(user=user)
+#
+#         home_tags = userprof.tags.all()
+#
+#         context['home_tags'] = home_tags
+#     return render_to_response('signup.html', context, context_instance=RequestContext(request))
+#
+#
 
 # def tag_create(request):
 #
