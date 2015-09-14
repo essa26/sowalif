@@ -5,7 +5,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Aldewan - A place for all</title>
+        <title>AlDiwan - A place for all</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="yes" name="apple-mobile-web-app-capable">
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic' rel='stylesheet' type='text/css'>
@@ -75,6 +75,7 @@
                                             {% csrf_token %}
                                             <input type="text" class="form-control" placeholder="Title" name="title">
                                             <input type="text" class="form-control" placeholder="Text" name="text">
+                                            <input type="image" class="form-control" placeholder="Upload an image (optional)" name="image">
                                             <input type="text" class="form-control" placeholder="Your Tags" name="tags">
                                          </div>
                                          <div class="modal-footer">
@@ -139,24 +140,7 @@
             </div>
         </div>
         <div id="content">
-            <article>
-                <section class="section swatch-black section-text-shadow section-inner-shadow">
-                    <div class="background-media" style="background-image: url('/static/images/uploads/image-08-normal.jpg'); background-repeat: no-repeat; background-size: cover; background-attachment: fixed; background-position: 50% 40%;' %}" data-start="background-position:"
-                    data-70-top-bottom="background-position:">
-                    </div>
-                    <div class="background-overlay grid-overlay-30 " style="background-color: rgba(0,0,0,0.3);"></div>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <header class="blog-header text-left  element-normal-top element-normal-bottom not-condensed" data-os-animation="fadeInUp" data-os-animation-delay=".4s">
-                                    <h1 class="blog-header-title super hairline medium-top">
-                    AlDewan
-                </h1>
-                                </header>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+           
        {% block body %}
        {% endblock %}
             <footer id="footer" role="contentinfo">

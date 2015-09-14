@@ -2,29 +2,22 @@
 {% load staticfiles %}
 {% load thumbnail %}
 {% block body %}
-<section id="two" class="section swatch-white">
-   <div class="container">
-      <div class="row element-normal-top element-normal-bottom">
-         <div class="col-md-8 col-md-offset-2">
-    <form action="/post_create/" method="POST">
-            {% csrf_token %}
-
-            {{ form.as_p }}
-
-            {% if user.is_authenticated %}
-                    <input type="hidden" name='author' value="{{ user.pk }}">
-                {% else %}
-                    <input type="hidden" name='author' value="88">
-            {% endif %}
-
-            <input type='submit' value='Upload Post'>
-
-    </form>
-
-            {{ form.errors }}
-
-         </div>
-      </div>
-   </div>
-
-{% endblock %}
+    <section id="two" class="section swatch-white">
+        <div class="container">
+            <div class="row element-normal-top element-normal-bottom">
+                <div class="col-md-8 col-md-offset-2">
+                    <form action="/post_create/" method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        {% if user.is_authenticated %}
+                            <input type="hidden" name='author' value="{{ user.pk }}">
+                        {% else %}
+                            <input type="hidden" name='author' value="88">
+                        {% endif %}
+                        <input type='submit' value='Upload Post'>
+                    </form>
+                    {{ form.errors }}
+                </div>
+            </div>
+        </div>
+    {% endblock %}

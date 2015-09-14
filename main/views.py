@@ -4,13 +4,14 @@ from django.db.backends.mysql.base import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
-from main.forms import UserSignup, UserLogin,  CreatePost, CommentOn, TagSearch#, TagCreate,
+# , TagCreate,
+from main.forms import UserSignup, UserLogin,  CreatePost, CommentOn, TagSearch
 from main.models import Post, Comment, UserProfile
 # Create your views here.
 
 
 def date_list(request):
-    context ={}
+    context = {}
     posts = Post.objects.all().order_by('-date_created')
     context['posts'] = posts
 
@@ -87,24 +88,36 @@ def home(request):
 def post_create(request):
 
     context = {}
+
     form = CreatePost()
     context['form'] = form
+
+    print "1"
+
     if request.method == 'POST':
-        form = CreatePost(request.POST)
-        context['form'] = form
+        form = CreatePost(request.POST, request.FILES)
+        print "2"
         if form.is_valid():
+            context['form'] = form
+            print form.cleaned_data
+            print "3"
             title = form.cleaned_data['title']
             text = form.cleaned_data['text']
             author_id = request.POST['author']
+            image = form.cleaned_data['image']
             tags = form.cleaned_data['tags']
+            author = UserProfile.objects.get(pk=request.user.pk)
 
             new_obj = Post()
 
-            #author = User.objects.get(pk=author_id)
+            print author_id
 
-            new_obj.author = User.objects.get(pk=author_id)
+            author = User.objects.get(pk=author_id)
+
+            new_obj.author = author
             new_obj.title = title
             new_obj.text = text
+            new_obj.image = image
 
             new_obj.save()
 
@@ -116,12 +129,14 @@ def post_create(request):
             context['valid'] = "Post Created"
 
             return HttpResponseRedirect('/')
+        else:
+            context['form'] = form
     elif request.method == 'GET':
         context['valid'] = form.errors
 
     if request.user.is_authenticated():
 
-        user = request.user
+        user = User.objects.get(pk=request.user.pk)
 
         userprof = UserProfile.objects.get(user=user)
 
@@ -129,7 +144,7 @@ def post_create(request):
 
         context['home_tags'] = home_tags
 
-    return render_to_response('add_post.html', context, context_instance=RequestContext (request))
+    return render_to_response('add_post.html', context, context_instance=RequestContext(request))
 
 
 def tag_search(request, tag=""):
@@ -263,11 +278,13 @@ def signup_view(request):
                 auth_user = authenticate(username=name, password=password)
                 login(request, auth_user)
 
-                userprof, created = UserProfile.objects.get_or_create(user=user)
+                userprof, created = UserProfile.objects.get_or_create(
+                    user=user)
 
                 return HttpResponseRedirect('/')
             except IntegrityError, e:
-                context['valid'] = "A user with that name is already taken. Please try again."
+                context[
+                    'valid'] = "A user with that name is already taken. Please try again."
 
         else:
             context['valid'] = form.errors
@@ -366,7 +383,7 @@ def user_tags_view(request):
     return render_to_response('user_detail.html', context, context_instance=RequestContext(request))
 
 
-#this vote view worked but the redirects were not correct
+# this vote view worked but the redirects were not correct
 
 
 def vote(request, pk):
@@ -374,7 +391,6 @@ def vote(request, pk):
     context = {}
 
     redirect_to = request.REQUEST.get('next', '')
-
 
     if request.user.is_authenticated():
 
@@ -387,7 +403,6 @@ def vote(request, pk):
     vote_type = request.GET.get('vote_type', None)
 
     post = Post.objects.get(pk=pk)
-
 
     print post
     print user
@@ -440,8 +455,6 @@ def downvote(request):
             post.up_votes.remove(user)
         except Exception, e:
             print 'e'
-
-
 
 
 def handler404(request):
@@ -509,5 +522,5 @@ def hometest(request):
 #         form = TagCreate()
 #         context['form'] = form
 #
-#     return render_to_response('tag_create.html', context, context_instance=RequestContext(request))
-
+# return render_to_response('tag_create.html', context,
+# context_instance=RequestContext(request))

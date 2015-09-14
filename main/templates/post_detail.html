@@ -22,6 +22,11 @@
                   <p>
                      {{ post.text }}
                   </p>
+                  {% if post.image %}
+                  <img src="{{post.image.url}}" class="img-responsive" alt="No image">
+                  {% else %}
+                  noimage
+                  {% endif %}
                   <p> tags:
                      {% for tag in tags %}
                          <a href="/tag_search/{{ tag }}/" method="GET">
