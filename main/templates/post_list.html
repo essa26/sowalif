@@ -42,7 +42,7 @@
                         </p>
                         tags:
                         {% for tag in post.tags.all %}
-                            <span class="badge"> <form action="/tag_search/" method="GET">
+                            <span class="post-more-link btn btn-sm"> <form action="/tag_search/" method="GET">
                                 <input type="submit" value="{{ tag }}" name="name">
                             </form></span>
                         {% endfor %}
