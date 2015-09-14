@@ -16,14 +16,17 @@
                                     <a href="/post_detail/{{ post.pk }}">
                                         {{ post.title }}
                                     </a>
-                                    {% if request.user.is_authenticated %}
-                                        <h4 class="upvote" id="{{ post.pk }}">Vote Up: <span
-                                                id="upnum">{{ post.up_votes.count }}</span></h4>
-                                        ---<h4 class="downvote" id="{{ post.pk }}">Vote Down:<span
-                                            id="downnum">{{ post.down_votes.count }}</span></h4>
-                                    {% else %}
-                                        <h4><a href="/login/">Login to Vote!</a></h4>
-                                    {% endif %}
+                                                                {% if request.user.is_authenticated %}
+                                <h4 class="upvote" id="{{ post.pk }}">Vote Up: <span
+                                        id="upnum{{ post.pk }}">{{ post.up_votes.count }}</span></h4>
+                                ---<h4 class="downvote" id="{{ post.pk }}">Vote Down:<span
+                                    id="downnum{{ post.pk }}">{{ post.down_votes.count }}</span></h4>
+                            {% else %}
+                                <h4>Vote Up: {{ post.up_votes.count }}</h4>
+                                <h4>Vote Down: {{ post.down_votes.count }}</h4>
+
+                                <h5><a href="/login/">Login to Vote!</a></h5>
+                            {% endif %}
 
                                 </h2>
                                 <small> by
