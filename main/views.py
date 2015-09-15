@@ -13,6 +13,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 
 def home(request):
+    context = {}
 
     posts = Post.objects.all().order_by('-date_created')
 
@@ -30,7 +31,6 @@ def home(request):
     except (InvalidPage, EmptyPage):
         posts = paginator.page(paginator.num_pages)
 
-    context = {}
 
     context['posts'] = posts
 

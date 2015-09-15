@@ -4,6 +4,8 @@ from main.forms import CreatePost
 
 def main_menu(request):
 
+    context = {}
+
     postform = CreatePost
 
     context['postform'] = postform
