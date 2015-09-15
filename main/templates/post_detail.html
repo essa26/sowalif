@@ -51,13 +51,6 @@
                   {% else %}
                   noimage
                   {% endif %}
-                  <p> tags:
-                     {% for tag in tags %}
-                         <a href="/tag_search/{{ tag }}/" method="GET">
-        <input type="submit" value="{{ tag }}" name="{{ tag }}">
-    </a>
-                     {% endfor %}
-                  </p>
 
                <h4>Comments:</h4>
                   {% for comment in post.comment_set.all %}

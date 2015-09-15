@@ -156,11 +156,11 @@ def post_create(request):
     form = CreatePost()
     context['form'] = form
 
-    print "1"
+
 
     if request.method == 'POST':
         form = CreatePost(request.POST, request.FILES)
-        print "2"
+        context['form'] = form
         if form.is_valid():
             context['form'] = form
             print form.cleaned_data
@@ -171,19 +171,14 @@ def post_create(request):
             image = form.cleaned_data['image']
             tags = form.cleaned_data['tags']
 
-            author = UserProfile.objects.get(pk=request.user.pk)
 
 
             new_obj = Post()
 
-            print author_id
 
-            author = User.objects.get(pk=author_id)
-
-            new_obj.author = author
+            new_obj.author = User.objects.get(pk=author_id)
             new_obj.title = title
             new_obj.text = text
-
             new_obj.image = image
 
             new_obj.save()

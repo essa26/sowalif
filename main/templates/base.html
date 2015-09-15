@@ -3,38 +3,7 @@
 {% load thumbnail %}
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
-<head>
-    <meta charset="utf-8">
-    <title>AlDewan - A place for all</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="yes" name="apple-mobile-web-app-capable">
-    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,300italic,400italic,600italic'
-          rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/theme.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/color-defaults.min.css' %}" media="screen">
-    <link rel="stylesheet" href="{% static 'css/swatch-white.min.css' %}" media="screen">
-    <link rel="stylesheet" href="{% static 'css/swatch-blue.min.css' %}" media="screen">
-    <link rel="stylesheet" href="{% static 'css/swatch-gray.min.css' %}" media="screen">
-    <link rel="stylesheet" href="{% static 'css/swatch-black.min.css' %}" media="screen">
-    <link rel="stylesheet" href="{% static 'css/swatch-white-black.min.css' %}" media="screen">
-    <link rel="stylesheet" href="{% static 'css/swatch-white-green.min.css' %}" media="screen">
-    <link rel="stylesheet" href="{% static 'css/swatch-white-red.min.css' %}" media="screen">
-    <link rel="stylesheet" href="{% static 'css/fonts.min.css' %}" media="screen">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
-</head>
-<body class="normal-header">
-<div id="masthead" class="navbar navbar-static-top swatch-white navbar-sticky" role="banner">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".main-navbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-=======
+
     <head>
         <meta charset="utf-8">
         <title>AlDiwan - A place for all</title>
@@ -52,6 +21,7 @@
         <link rel="stylesheet" href="{% static 'css/swatch-white-green.min.css' %}" media="screen">
         <link rel="stylesheet" href="{% static 'css/swatch-white-red.min.css' %}" media="screen">
         <link rel="stylesheet" href="{% static 'css/fonts.min.css' %}" media="screen">
+        <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
     </head>
     <body class="normal-header">
         <div id="masthead" class="navbar navbar-static-top swatch-white navbar-sticky" role="banner">
@@ -62,7 +32,6 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
->>>>>>> 69f3e6aeb6cb14efeb1922039cff5e8759c7fd3c
 
             <!--<a href="index.html" class="navbar-brand">
                         <img src="{% static 'images/omega.gif' %}" alt="One of the best themes ever">Omega -->
@@ -175,27 +144,7 @@
 </div>
 <div id="content">
     <article>
-        <section class="section swatch-black section-text-shadow section-inner-shadow">
-            <div class="background-media"
-                 style="background-image: url('/static/images/uploads/image-08-normal.jpg'); background-repeat: no-repeat; background-size: cover; background-attachment: fixed; background-position: 50% 40%;' %}"
-                 data-start="background-position:"
-                 data-70-top-bottom="background-position:">
-            </div>
-<<<<<<< HEAD
-            <div class="background-overlay grid-overlay-30 " style="background-color: rgba(0,0,0,0.3);"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <header class="blog-header text-left  element-normal-top element-normal-bottom not-condensed"
-                                data-os-animation="fadeInUp" data-os-animation-delay=".4s">
-                            <h1 class="blog-header-title super hairline medium-top">
-                                AlDewan
-                            </h1>
-                        </header>
-                    </div>
-                </div>
-            </div>
-        </section>
+
         {% block body %}
         {% endblock %}
         <footer id="footer" role="contentinfo">
@@ -247,56 +196,8 @@
                                         <a href="/tag_search/?name=updog" method="GET">UpDog</a>
                                     </li>
                                 </ul>
-=======
-        </div>
-        <div id="content">
-           
-       {% block body %}
-       {% endblock %}
-            <footer id="footer" role="contentinfo">
-                <section class="section swatch-black">
-                    <div class="container">
-                        <div class="row element-normal-top element-normal-bottom">
-                            <div class="col-md-3">
-                                <div id="recent-posts-4" class="sidebar-widget  widget_recent_entries">
-                                    <h3 class="sidebar-header">Recent Posts</h3>
-                                    <ul>
-                                        <li class="clearfix">
-                                            <div class="post-icon">
-                                                <a href="blog-post.html" title="The beauty of the world.">
-                                                    <img width="150" height="150" src="{% static 'images/uploads/image-08-normal-150x150.jpg' %}" class="attachment-thumbnail wp-post-image" alt="image-08-normal">
-                                                </a>
-                                            </div>
-                                            <a href="blog-post.html" title="The beauty of the world.">The beauty of the world.</a>
-                                            <small class="post-date">
-                                        March 14, 2014
-                                    </small>
-                                        </li>
-                                        <li class="clearfix">
-                                            <div class="post-icon">
-                                                <a href="blog-post.html" title="Colors are the smiles of nature.">
-                                                    <img width="150" height="150" src="{% static 'images/uploads/image-02-normal-150x150.jpg' %}" class="attachment-thumbnail wp-post-image" alt="image-02-normal">
-                                                </a>
-                                            </div>
-                                            <a href="blog-post.html" title="Colors are the smiles of nature.">Colors are the smiles of nature.</a>
-                                            <small class="post-date">
-                                    March 1, 2014
-                                </small>
-                                        </li>
-                                        <li class="clearfix">
-                                            <div class="post-icon">
-                                                <a href="blog-post.html" title="Coffee is a language in itself.">
-                                                    <img width="150" height="150" src="{% static 'images/uploads/image-03-normal-150x150.jpg' %}" class="attachment-thumbnail wp-post-image" alt="image-03-normal">
-                                                </a>
-                                            </div>
-                                            <a href="blog-post.html" title="Coffee is a language in itself.">Coffee is a language in itself.</a>
-                                            <small class="post-date">
-                                    February 14, 2014
-                                </small>
-                                        </li>
-                                    </ul>
-                                </div>
->>>>>>> 69f3e6aeb6cb14efeb1922039cff5e8759c7fd3c
+
+
                             </div>
                         </div>
 
