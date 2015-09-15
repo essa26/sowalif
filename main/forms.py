@@ -53,7 +53,6 @@ class CreatePost(forms.Form):
     image = forms.ImageField(
         label='Select an image', help_text='max. 42 megabytes', required=False)
     text = forms.CharField(widget=forms.Textarea())
-    #image = forms.ImageField()
     tags = TagField()
     author = forms.CharField(widget=forms.HiddenInput())
 

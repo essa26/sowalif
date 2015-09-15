@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
+
 {% load thumbnail %}
 {% block body %}
 <section id="two" class="section swatch-white">
@@ -45,8 +47,10 @@
                                         </a>
                                     {% endfor %}
                                 </p>
-
+                   {% if post.image %}
                <img src="{{ post.image.url }}">
+                    {% else %}
+               {% endif %}
 {##}
 {#                  {% if post.image %}#}
 {#                  <img src="{{post.image.url}}" class="img-responsive" alt="No image">#}
@@ -56,11 +60,12 @@
 
                <h4>Comments:</h4>
                   {% for comment in post.comment_set.all %}
-                  <h5>{{ comment.author }}</h5>
+                  <h4>{{ comment.author }}</h4>
                   <h6>{{ comment.date_created }}</h6>
                   <p>{{ comment.text }}</p>
                   {% endfor %}
-                  <form method="POST" action="/post_detail/{{ post.pk }}/">
+
+<form method="POST" action="/post_detail/{{ post.pk }}/">
                   {% csrf_token %}
                   {{ form.as_p }}
                   <input type="hidden" name="posted_on" value="{{ post.pk }}">

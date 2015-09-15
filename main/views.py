@@ -273,6 +273,7 @@ def post_detail_view(request, pk):
 
     context['post'] = post
 
+
     if request.method == 'POST':
         form = CommentOn(request.POST)
 
