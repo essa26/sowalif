@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'^user_detail/$', 'main.views.user_tags_view'),
     url(r'^user_detail_add/$', 'main.views.user_detail_add'),
     url(r'^hometest/$', 'main.views.hometest'),
-    url(r'^vote/(?P<pk>\d+)/$', 'main.views.vote'),
+    #url(r'^vote/(?P<pk>\d+)/$', 'main.views.vote'),
     url(r'^upvote/$', 'main.views.upvote'),
     url(r'^downvote/$', 'main.views.downvote'),
     url(r'^about/$', 'main.views.about'),

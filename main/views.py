@@ -4,7 +4,8 @@ from django.db.backends.mysql.base import IntegrityError
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
-from main.forms import UserSignup, UserLogin,  CreatePost, CommentOn, TagSearch#, TagCreate,
+# , TagCreate,
+from main.forms import UserSignup, UserLogin,  CreatePost, CommentOn, TagSearch
 from main.models import Post, Comment, UserProfile
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
@@ -151,21 +152,29 @@ def unpopular_list(request):
 def post_create(request):
 
     context = {}
+
     form = CreatePost()
     context['form'] = form
+
+
+
     if request.method == 'POST':
-        form = CreatePost(request.POST)
+        form = CreatePost(request.POST)#, request.FILES)
         context['form'] = form
         if form.is_valid():
+            context['form'] = form
+            print form.cleaned_data
+            print "3"
             title = form.cleaned_data['title']
             text = form.cleaned_data['text']
             author_id = request.POST['author']
-            tags = form.cleaned_data['tags']
             #image = form.cleaned_data['image']
+            tags = form.cleaned_data['tags']
+
+
 
             new_obj = Post()
 
-            #author = User.objects.get(pk=author_id)
 
             new_obj.author = User.objects.get(pk=author_id)
             new_obj.title = title
@@ -182,12 +191,14 @@ def post_create(request):
             context['valid'] = "Post Created"
 
             return HttpResponseRedirect('/')
+        else:
+            context['form'] = form
     elif request.method == 'GET':
         context['valid'] = form.errors
 
     if request.user.is_authenticated():
 
-        user = request.user
+        user = User.objects.get(pk=request.user.pk)
 
         userprof = UserProfile.objects.get(user=user)
 
@@ -195,7 +206,7 @@ def post_create(request):
 
         context['home_tags'] = home_tags
 
-    return render_to_response('add_post.html', context, context_instance=RequestContext (request))
+    return render_to_response('add_post.html', context, context_instance=RequestContext(request))
 
 
 def tag_search(request):
@@ -309,11 +320,13 @@ def signup_view(request):
                 auth_user = authenticate(username=name, password=password)
                 login(request, auth_user)
 
-                userprof, created = UserProfile.objects.get_or_create(user=user)
+                userprof, created = UserProfile.objects.get_or_create(
+                    user=user)
 
                 return HttpResponseRedirect('/')
             except IntegrityError, e:
-                context['valid'] = "A user with that name is already taken. Please try again."
+                context[
+                    'valid'] = "A user with that name is already taken. Please try again."
 
         else:
             context['valid'] = form.errors
@@ -412,10 +425,6 @@ def user_tags_view(request):
     return render_to_response('user_detail.html', context, context_instance=RequestContext(request))
 
 
-#this vote view worked but the redirects were not correct
-
-
-
 def upvote(request):
     if request.user.is_authenticated():
         user = User.objects.get(pk=request.user.pk)
@@ -444,8 +453,6 @@ def downvote(request):
             print 'e'
 
     return HttpResponse(['%s' % post.up_votes.count(),'%s' % post.down_votes.count()])
-
-
 
 def handler404(request):
 
@@ -595,3 +602,5 @@ def about(request):
 #
 #     return render_to_response('vote.html', context, context_instance=RequestContext(request))
 
+# return render_to_response('tag_create.html', context,
+# context_instance=RequestContext(request))

@@ -45,6 +45,13 @@
                                         </a>
                                     {% endfor %}
                                 </p>
+{##}
+{#                  {% if post.image %}#}
+{#                  <img src="{{post.image.url}}" class="img-responsive" alt="No image">#}
+{#                  {% else %}#}
+{#                  noimage#}
+{#                  {% endif %}#}
+
                <h4>Comments:</h4>
                   {% for comment in post.comment_set.all %}
                   <h5>{{ comment.author }}</h5>
