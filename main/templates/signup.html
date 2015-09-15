@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
+
 {% load thumbnail %}
 {% block body %}
     <section id="two" class="section swatch-white">
@@ -7,28 +9,15 @@
       <div class="row element-normal-top element-normal-bottom">
 
           <div class="col-md-8 col-md-offset-2">
-{% if not user.is_authenticated %}
-    <h2>Signup Here!</h2>
-    </br>
-    <form action="/signup/" method="POST">
-        {% csrf_token %}
-        {{ form.as_table }}
-        <input type="submit" value="Signup">
-    </form>
-</br>
-    <form action="/login/" method="POST">
+              <h3>SignUp Here:</h3></br>
+                {% crispy form %}
+                  <form action="/login/" method="POST">
         {% csrf_token %}
         {{ login_form.as_table }}
         <input type="submit" value="Click Here To Login If Signed Up!">
     </form>
 
-{% else %}
-    Welcome, {{ user.username }}
-    <form action="/logout/" method="POST">
-    {% csrf_token %}
-        <input type="submit" value="logout" >
-    </form>
-{% endif %}
+
                      </div>
           </div>
        </div>

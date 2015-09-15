@@ -17,9 +17,9 @@ class UserProfile(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User)
-    image = models.ImageField(upload_to='post', null=True)
+    #image = models.ImageField(upload_to='post', null=True)
     text = models.TextField()
-    #image = models.ImageField(upload_to='image', null=True, blank=True)
+    image = models.ImageField(upload_to='image', null=True, blank=True)
     date_created = models.DateTimeField(auto_now=True)
     tags = TaggableManager()
     up_votes = models.ManyToManyField(User, blank=True, related_name='up_votes')

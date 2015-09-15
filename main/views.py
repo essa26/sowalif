@@ -153,13 +153,17 @@ def post_create(request):
 
     context = {}
 
-    form = CreatePost()
+    if request.user.is_authenticated():
+        form = CreatePost(initial={'author': request.user.pk})
+    else:
+        form = CreatePost(initial={'author': '88'})
+
     context['form'] = form
 
 
 
     if request.method == 'POST':
-        form = CreatePost(request.POST)#, request.FILES)
+        form = CreatePost(request.POST, request.FILES)
         context['form'] = form
         if form.is_valid():
             context['form'] = form
@@ -168,10 +172,11 @@ def post_create(request):
             title = form.cleaned_data['title']
             text = form.cleaned_data['text']
             author_id = request.POST['author']
-            #image = form.cleaned_data['image']
+            image = form.cleaned_data['image']
             tags = form.cleaned_data['tags']
 
-
+            print "image thing"
+            print image
 
             new_obj = Post()
 
@@ -179,7 +184,7 @@ def post_create(request):
             new_obj.author = User.objects.get(pk=author_id)
             new_obj.title = title
             new_obj.text = text
-            #new_obj.image = image
+            new_obj.image = image
 
             new_obj.save()
 
@@ -363,6 +368,7 @@ def login_view(request):
             return HttpResponseRedirect('/')
         else:
             context['valid'] = "Invalid User"
+
     else:
         context['valid'] = "Please enter a User"
 
