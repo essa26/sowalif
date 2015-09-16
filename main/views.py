@@ -354,7 +354,9 @@ def login_view(request):
 
     context = {}
 
-    context['form'] = UserLogin()
+    form = UserLogin()
+
+    context['form'] = form
 
     username = request.POST.get('username', None)
     password = request.POST.get('password', None)
@@ -368,10 +370,10 @@ def login_view(request):
 
             return HttpResponseRedirect('/')
         else:
-            context['valid'] = "Invalid User"
+            context['valid'] = form.errors
 
     else:
-        context['valid'] = "Please enter a User"
+        context['valid'] = form.errors
 
     if request.user.is_authenticated():
 
