@@ -82,7 +82,7 @@ def date_list(request):
 
 
 def popular_list(request):
-    posts = Post.objects.all().order_by('-up_votes')
+    posts = Post.objects.all().order_by('-save_up')
 
     paginator = Paginator(posts, 16)
 
@@ -116,7 +116,7 @@ def popular_list(request):
 
 
 def unpopular_list(request):
-    posts = Post.objects.all().order_by('-down_votes')
+    posts = Post.objects.all().order_by('-save_down')
 
     paginator = Paginator(posts, 16)
 

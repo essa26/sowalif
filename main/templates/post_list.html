@@ -25,8 +25,8 @@
                                 ---<h4 class="downvote" id="{{ post.pk }}">Vote Down:<span
                                     id="downnum{{ post.pk }}">{{ post.down_votes.count }}</span></h4>
                             {% else %}
-                                <h4>Vote Up: {{ post.up_votes.count }}</h4>
-                                <h4>Vote Down: {{ post.down_votes.count }}</h4>
+                                <h4>Vote Up: {{ post.save_up.count }}</h4>
+                                <h4>Vote Down: {{ post.save_down.count }}</h4>
 
                                 <h5><a href="/login/">Login to Vote!</a></h5>
                             {% endif %}
