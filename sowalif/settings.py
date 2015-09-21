@@ -44,7 +44,7 @@ INSTALLED_APPS = (
 )
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
-
+CRISPY_FAIL_SILENTLY = DEBUG
 
 # TEMPLATE_CONTEXT_PROCESSORS = (
 #     "django.core.context_processors.auth",
